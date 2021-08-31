@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
-import "antd/dist/antd.less";
+// import "antd/dist/antd.less";
+import "../styles/globals.less";
 import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -15,7 +16,7 @@ const queryClient = new QueryClient({
 });
 function MyApp({ Component, pageProps }) {
    return (
-      <Layout>
+      <Layout hasSider>
          <QueryClientProvider client={queryClient}>
             <Component {...pageProps} />
             <ReactQueryDevtools initialIsOpen={false} />

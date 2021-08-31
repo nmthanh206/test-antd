@@ -15,7 +15,7 @@ export default function Layout2({ children }) {
          />
          <Layout className="">
             <Header />
-            <Layout>
+            <Layout hasSider>
                {false && <Sider className=" bg-blue-200">Sider</Sider>}
                <Content className="">{children}</Content>
             </Layout>
