@@ -29,3 +29,12 @@ object {
    vertical-align: baseline;
    /* overridge  tailwind icon default */
 }
+.no-fouc {
+   visibility: hidden;
+   opacity: 0;
+}
+
+.fouc {
+   visibility: visible;
+   opacity: 1;
+}

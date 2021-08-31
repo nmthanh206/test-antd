@@ -10,8 +10,8 @@ class MyDocument extends Document {
       return (
          <Html>
             <Head />
-            <body>
-               <script>0</script>
+            <body className="no-fouc">
+               {/* <script>0</script> */}
                <Main />
                <NextScript />
             </body>
