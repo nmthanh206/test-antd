@@ -1,26 +1,65 @@
-import { Button, Input, Layout } from "antd";
-import { Spin } from "antd";
-// import Header2 from "../components/Header";
-const { Header, Footer, Sider, Content } = Layout;
+import React from "react";
+import { Row, Col, Alert } from "antd";
+// import Product from "../components/Product";
+// import Loader from "../components/Loader";
+import { useListProducts } from "../hook/product/useListProducts";
+import Product from "@/components/Product";
+import Product2 from "../model/productModel";
 
-export default function Home() {
+import dbConnect from "@/lib/dbConnect";
+
+const Home = ({ products }) => {
+   const keyword = "";
+   let pageNumber = 1;
+
+   if (pageNumber < 1) pageNumber = 1;
+   // const data = {};
+   const { data, isLoading, isError, error } = useListProducts(
+      {
+         pageNumber,
+         keyword,
+      },
+      products
+   );
+   // console.log(data);
+   if (isLoading || !data) return <div className="-mt-36">loading...</div>;
+
+   if (isError)
+      return (
+         <div className="mx-auto">
+            <Alert message={error.message} type="error" />
+         </div>
+      );
+
    return (
-      <div className="h-screen bg-gray-50">
-         <Layout className="h-full">
-            <Sider className=" bg-blue-200">Sider</Sider>
-            <Layout>
-               <Header className=" bg-orange-200">Header</Header>
-               <Content className=" h-full">
-                  Content <Spin size="large" />
-                  <Input placeholder="Basic usage" className=" !w-32" />
-                  <Button type="primary" className=" ml-10 w-36 h-12">
-                     hello
-                  </Button>
-               </Content>
-               <Footer className="!bg-green-300">Footer</Footer>
-            </Layout>
-         </Layout>
-         {/* <Header2 /> */}
+      <div className="">
+         <div className="px-5">
+            <Row gutter={16}>
+               {(data.products || products).map((product) => (
+                  <Col
+                     key={product._id}
+                     gutter={16}
+                     sm={24}
+                     md={12}
+                     lg={8}
+                     xl={6}
+                     xs={24}
+                  >
+                     <Product product={product} />
+                  </Col>
+               ))}
+            </Row>
+         </div>
       </div>
    );
+};
+export default Home;
+export async function getStaticProps(context) {
+   await dbConnect();
+   let data = await Product2.find({}); /* find all the data in our database */
+
+   return {
+      props: { products: JSON.parse(JSON.stringify(data)) }, // will be passed to the page component as props
+      revalidate: 5,
+   };
 }

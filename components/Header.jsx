@@ -1,5 +1,7 @@
+import React, { useState } from "react";
 import { Affix, Badge, Layout, Menu, Input } from "antd";
-
+import Link from "next/link";
+import { useRouter } from "next/router";
 import {
    AppstoreOutlined,
    UserOutlined,
@@ -10,87 +12,97 @@ import {
    TeamOutlined,
    ContactsOutlined,
 } from "@ant-design/icons";
-import { renderOnlyOnClient } from "../Util/renderOnlyOnClient";
+import { renderOnlyOnClient } from "@/utils/renderOnlyOnClient";
 
 const { Header } = Layout;
 const { SubMenu, Item } = Menu;
 const { Search } = Input;
 const Header2 = () => {
-   //    const [current, setCurrent] = useState([]);
    const user = {};
-   const onSearch = (keyword) => keyword;
+   const router = useRouter();
+   const numCart = 2;
+
+   const [current] = useState([]);
+
+   const logoutHandler = () => {};
+
+   const onSearch = (keyword) => router.push(`/search/${keyword}`);
    return (
       <Affix>
          <Header>
             <Menu
                // onClick={handleClick}
-               selectedKeys={[1]}
+               selectedKeys={[current]}
                mode="horizontal"
                theme="dark"
-               className="px-20 colorHeader"
+               className=" px-20"
             >
                <Item key="HOME" icon={<AppstoreOutlined />}>
-                  <a to="/">HOME</a>
+                  <Link href="/">HOME</Link>
                   {/* <div onClick={goHomeHandler}>HOME</div> */}
                </Item>
-               <Item key="SEARCH" className="hover:!bg-[#4c4d57]">
-                  <div className=" flex justify-center items-center w-full h-full">
-                     <Search
-                        placeholder="Find product"
-                        allowClear
-                        enterButton="Search"
-                        size="middle"
-                        onSearch={onSearch}
-                     />
-                  </div>
+               <Item key="SEARCH" className="cursor-default search">
+                  <Search
+                     placeholder="Find product"
+                     allowClear
+                     enterButton="Search"
+                     size="middle"
+                     onSearch={onSearch}
+                  />
                </Item>
 
                <Item
                   key="CART"
                   icon={
-                     <Badge count={4} offset={[0, -3]} size="small">
+                     <Badge count={numCart} offset={[0, -3]} size="small">
                         <ShoppingCartOutlined />
                      </Badge>
                   }
                   className="ml-auto"
                >
-                  <a to="/cart">CART</a>
+                  <Link href="/cart">CART</Link>
                </Item>
+               {!user && (
+                  <Item key=" SIGN IN" icon={<UserOutlined />}>
+                     SIGN IN
+                     <Link href="/login"></Link>
+                  </Item>
+               )}
+               {user && (
+                  <SubMenu
+                     icon={<UserOutlined />}
+                     // title={user?.name}
+                     title="cu li"
+                     key="USER"
 
-               <Item key=" SIGN IN" icon={<UserOutlined />}>
-                  SIGN IN
-                  <a to="/login"></a>
-               </Item>
+                     // popupOffset={[1000, 5]}
+                  >
+                     <Item key="Profile" icon={<ContactsOutlined />}>
+                        <Link href="/profile">Profile</Link>
+                     </Item>
+                     <Item key="Logout" icon={<LogoutOutlined />}>
+                        <Link href="#" onClick={logoutHandler}>
+                           Logout
+                        </Link>
+                     </Item>
+                  </SubMenu>
+               )}
 
-               <SubMenu
-                  icon={<UserOutlined />}
-                  title={user?.name}
-                  key="USER"
-
-                  // popupOffset={[1000, 5]}
-               >
-                  <Item key="Profile" icon={<ContactsOutlined />}>
-                     <a to="/profile">Profile</a>
-                  </Item>
-                  <Item key="Logout" icon={<LogoutOutlined />}>
-                     <a to="#">Logout</a>
-                  </Item>
-               </SubMenu>
-
-               <SubMenu icon={<UserOutlined />} title="ADMIN" key="admin">
-                  <Item key="Users" icon={<TeamOutlined />}>
-                     <a to="/admin/userlist">Users</a>
-                  </Item>
-                  <Item key="Products" icon={<FormOutlined />}>
-                     <a to="/admin/productlist">Products</a>
-                  </Item>
-                  <Item key="Orders" icon={<ReconciliationOutlined />}>
-                     <a to="/admin/orderlist">Orders</a>
-                  </Item>
-               </SubMenu>
+               {user?.isAdmin && (
+                  <SubMenu icon={<UserOutlined />} title="ADMIN" key="admin">
+                     <Item key="Users" icon={<TeamOutlined />}>
+                        <Link href="/admin/userlist">Users</Link>
+                     </Item>
+                     <Item key="Products" icon={<FormOutlined />}>
+                        <Link href="/admin/productlist">Products</Link>
+                     </Item>
+                     <Item key="Orders" icon={<ReconciliationOutlined />}>
+                        <Link href="/admin/orderlist">Orders</Link>
+                     </Item>
+                  </SubMenu>
+               )}
             </Menu>
          </Header>
-         <div className="mt-32 ml-[100px] bg-blue-200">hello</div>
       </Affix>
    );
 };
