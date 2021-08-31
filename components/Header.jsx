@@ -12,7 +12,6 @@ import {
    TeamOutlined,
    ContactsOutlined,
 } from "@ant-design/icons";
-import { renderOnlyOnClient } from "@/utils/renderOnlyOnClient";
 
 const { Header } = Layout;
 const { SubMenu, Item } = Menu;
@@ -35,13 +34,13 @@ const Header2 = () => {
                selectedKeys={[current]}
                mode="horizontal"
                theme="dark"
-               className=" px-20"
+               className="px-20"
             >
                <Item key="HOME" icon={<AppstoreOutlined />}>
                   <Link href="/">HOME</Link>
                   {/* <div onClick={goHomeHandler}>HOME</div> */}
                </Item>
-               <Item key="SEARCH" className="cursor-default search">
+               <Item key="SEARCH">
                   <Search
                      placeholder="Find product"
                      allowClear
@@ -107,4 +106,4 @@ const Header2 = () => {
    );
 };
 
-export default renderOnlyOnClient(Header2);
+export default Header2;
