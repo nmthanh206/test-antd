@@ -1,10 +1,10 @@
 import React from "react";
-import { Row, Col, Alert, Spin } from "antd";
+import { Row, Col, Alert } from "antd";
 // import Product from "../components/Product";
 // import Loader from "../components/Loader";
-import { useListProducts } from "../hook/product/useListProducts";
+import { useListProducts } from "@/hook/product/useListProducts";
 import Product from "@/components/Product";
-import Product2 from "../model/productModel";
+import Product2 from "@/model/productModel";
 
 import dbConnect from "@/lib/dbConnect";
 
@@ -22,14 +22,14 @@ const Home = ({ products }) => {
       products
    );
 
-   console.log(isFetching);
-   console.log(isLoading);
-   if (isLoading || !data)
-      return (
-         <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
-            <Spin size="large" className=" spin" />
-         </div>
-      );
+   // console.log(isFetching);
+   // console.log(isLoading);
+   // if (isLoading || !data)
+   //    return (
+   //       <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+   //          <Spin size="large" className=" spin" />
+   //       </div>
+   //    );
 
    if (isError)
       return (
@@ -68,6 +68,6 @@ export async function getStaticProps(context) {
    return {
       props: { products: JSON.parse(JSON.stringify(data)) }, // will be passed to the page component as props
 
-      // revalidate: 20,
+      // revalidate: 30,
    };
 }

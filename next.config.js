@@ -1,6 +1,6 @@
 const withLess = require("next-with-less");
 const path = require("path");
-const pathToLessFileWithVariables = path.resolve("./styles/globals.less");
+const pathToLessFileWithVariables = path.resolve("./src/styles/globals.less");
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
    enabled: process.env.ANALYZE === "true",
 });

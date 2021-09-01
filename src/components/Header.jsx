@@ -61,13 +61,12 @@ const Header2 = () => {
                >
                   <Link href="/cart">CART</Link>
                </Item>
-               {!user && (
-                  <Item key=" SIGN IN" icon={<UserOutlined />}>
-                     SIGN IN
-                     <Link href="/login"></Link>
-                  </Item>
-               )}
-               {user && (
+
+               <Item key=" SIGN IN" icon={<UserOutlined />}>
+                  <Link href="/login"> SIGN IN</Link>
+               </Item>
+
+               {/* {user && (
                   <SubMenu
                      icon={<UserOutlined />}
                      // title={user?.name}
@@ -85,7 +84,7 @@ const Header2 = () => {
                         </Link>
                      </Item>
                   </SubMenu>
-               )}
+               )} */}
 
                {user?.isAdmin && (
                   <SubMenu icon={<UserOutlined />} title="ADMIN" key="admin">

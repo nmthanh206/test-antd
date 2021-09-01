@@ -1,0 +1,16 @@
+.no-fouc {
+   visibility: hidden;
+   opacity: 0;
+}
+
+.fouc {
+   visibility: visible;
+   opacity: 1;
+}
+.spin span {
+   font-size: 100px !important;
+}
+.spin span i {
+   width: 30px !important;
+   height: 30px !important;
+}

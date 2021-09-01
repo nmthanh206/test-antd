@@ -1,12 +1,13 @@
 import Layout from "@/components/Layout";
 import "antd/dist/antd.less";
-import "../styles/globals.less";
-import "tailwindcss/tailwind.css";
-import "../styles/globals.css";
-import { useEffect } from "react";
+import "@/styles/globals.less";
+import "@/styles/tailwind.css";
+import "@/styles/globals.css";
+
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Head } from "next/head";
+// import { useEffect } from "react";
+
 const queryClient = new QueryClient({
    shared: {
       suspense: false,
@@ -16,6 +17,7 @@ const queryClient = new QueryClient({
       retry: 1,
    },
 });
+
 function MyApp({ Component, pageProps }) {
    // useEffect(() => {
    //    const removeFouc = (foucElement) => {
@@ -26,7 +28,7 @@ function MyApp({ Component, pageProps }) {
    //    };
    //    setTimeout(function () {
    //       removeFouc(document.querySelector("body"));
-   //    }, 500);
+   //    }, 200);
    // }, []);
 
    if (typeof window !== "undefined") {

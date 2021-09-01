@@ -14,6 +14,7 @@ export default function Layout2({ children }) {
             pauseOnHover={false}
             pauseOnFocusLoss={false}
          />
+
          <Layout className="">
             <Header />
             <Layout hasSider>

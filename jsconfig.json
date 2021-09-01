@@ -2,9 +2,13 @@
    "compilerOptions": {
       "baseUrl": ".",
       "paths": {
-         "@/components/*": ["components/*"],
+         "@/components/*": ["src/components/*"],
+         "@/hook/*": ["src/hook/*"],
+         "@/styles/*": ["src/styles/*"],
+         "@/model/*": ["server/model/*"],
+         "@/middleware/*": ["server/middleware/*"],
+         "@/controllers/*": ["server/controllers/*"],
          "@/lib/*": ["lib/*"],
-         "@/styles/*": ["styles/*"],
          "@/utils/*": ["utils/*"]
       }
    }

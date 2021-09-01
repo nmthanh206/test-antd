@@ -25,7 +25,7 @@ class MyDocument extends Document {
             </Head>
             {/* <body className="no-fouc"> */}
             <body>
-               {/* <script /> */}
+               {/* <script>0</script> */}
                <Main />
                <NextScript />
             </body>
