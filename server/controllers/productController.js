@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import asyncHandler from "express-async-handler";
-import Product from "@/model/productModel";
+import Product from "server/models/productModel";
 
 // @desc    Fetch all products
 // @route   GET /api/products

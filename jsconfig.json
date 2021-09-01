@@ -5,7 +5,7 @@
          "@/components/*": ["src/components/*"],
          "@/hook/*": ["src/hook/*"],
          "@/styles/*": ["src/styles/*"],
-         "@/model/*": ["server/model/*"],
+         "@/models/*": ["server/models/*"],
          "@/middleware/*": ["server/middleware/*"],
          "@/controllers/*": ["server/controllers/*"],
          "@/lib/*": ["lib/*"],

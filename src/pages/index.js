@@ -4,7 +4,7 @@ import { Row, Col, Alert } from "antd";
 // import Loader from "../components/Loader";
 import { useListProducts } from "@/hook/product/useListProducts";
 import Product from "@/components/Product";
-import Product2 from "@/model/productModel";
+import Product2 from "server/models/productModel";
 
 import dbConnect from "@/lib/dbConnect";
 
