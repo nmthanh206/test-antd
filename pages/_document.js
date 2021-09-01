@@ -9,9 +9,23 @@ class MyDocument extends Document {
    render() {
       return (
          <Html>
-            <Head />
-            <body className="no-fouc">
-               {/* <script>0</script> */}
+            <Head>
+               {typeof window === "undefined" && (
+                  <style
+                     id="holderStyle"
+                     dangerouslySetInnerHTML={{
+                        __html: `
+         *, *::before, *::after {
+           transition: none !important;
+         }
+         `,
+                     }}
+                  />
+               )}
+            </Head>
+            {/* <body className="no-fouc"> */}
+            <body>
+               {/* <script /> */}
                <Main />
                <NextScript />
             </body>
