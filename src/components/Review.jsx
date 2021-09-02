@@ -26,33 +26,24 @@ const Review = ({ reviews, form, setTextSubmit, setRate }) => {
                         className="py-4 px-2 rounded-lg border-2 border-blue-100 border-solid"
                         avatar={
                            <>
-                              <div className=" flex justify-center items-center w-10 h-10 bg-gray-200 rounded-3xl">
-                                 <span className="font-bold text-gray-500">
-                                    {length > 1
-                                       ? `${name[length - 2][0]}${
-                                            name[length - 1][0]
-                                         }`
-                                       : name[0][0]}
-                                 </span>
-                              </div>
-                              <div className="mt-1 text-xs font-semibold text-gray-400">
-                                 {`${day}-${month}-${year}`}
+                              <div className="flex flex-col items-center">
+                                 <div className=" flex justify-center items-center w-10 h-10 bg-gray-200 rounded-3xl">
+                                    <span className="font-bold text-gray-500">
+                                       {length > 1
+                                          ? `${name[length - 2][0]}${
+                                               name[length - 1][0]
+                                            }`
+                                          : name[0][0]}
+                                    </span>
+                                 </div>
+                                 <div className="mt-1 text-xs font-semibold text-gray-400">
+                                    {`${day}-${month}-${year}`}
+                                 </div>
                               </div>
                            </>
                         }
                         title={
                            <>
-                              {/* <Row className="cmt">
-                      <Col span={10}>{review.name}</Col>
-                      <Col span={5} pull={13} className="-mt-1">
-                        <Rate
-                          allowHalf
-                          disabled
-                          defaultValue={review.rating}
-                          className="start"
-                        />
-                      </Col>
-                    </Row> */}
                               <Row className="" align="middle">
                                  <Col span={10}>
                                     <h3>{review.name}</h3>
