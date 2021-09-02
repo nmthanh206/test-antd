@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 let cartItemsFromStorage = [];
-// if (typeof window !== "undefined") {
-//     cartItemsFromStorage = localStorage.getItem("cartItems")
-//    ? JSON.parse(localStorage.getItem("cartItems"))
-//    : [];
-// }
+if (typeof window !== "undefined") {
+   cartItemsFromStorage = localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [];
+}
 const cartReducer = createSlice({
    name: "cartReducer",
    initialState: {

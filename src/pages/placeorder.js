@@ -10,6 +10,7 @@ import Message from "@/components/Message";
 
 import { useMutationCreateOrder } from "@/hook/order";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const { Step } = Steps;
 
@@ -19,15 +20,18 @@ const PlaceOrderScreen = () => {
       return { ...state.cart };
    });
    const user = useSelector((state) => {
-      return { ...state.userLogin.user };
+      return state.userLogin.user;
    });
 
-   if (!cart.shippingAddress.address) {
-      router.push("/shipping");
-   }
-   if (!cart.paymentMethod) {
-      router.push("/payment");
-   }
+   useEffect(() => {
+      if (!user) {
+         router.push("/login");
+      } else if (!cart.paymentMethod) {
+         router.push("/payment");
+      } else if (!cart.shippingAddress.address) {
+         router.push("/shipping");
+      }
+   }, [cart.paymentMethod, cart.shippingAddress.address, router, user]);
    const { mutate: createOrder, isLoading } = useMutationCreateOrder(router);
 
    //   Calculate prices
@@ -93,7 +97,7 @@ const PlaceOrderScreen = () => {
                         {cart.shippingAddress.country}
                      </p>
 
-                     <Divider />
+                     <Divider className="m-0" />
 
                      <h2>Payment Method</h2>
                      <p>
@@ -155,37 +159,37 @@ const PlaceOrderScreen = () => {
                </Col>
                <Col span={6} pull={1}>
                   <div>
-                     <div className="spaceDivider">
+                     <div className="p-4 border-[1px] border-gray-200 border-solid spaceDivider">
                         <Row>
                            <Col span={24}>
                               <h1 className="text-center">Order Summary</h1>
                            </Col>
                         </Row>
-                        <Divider />
+                        <Divider className=" m-3" />
                         <Row>
                            <Col span={12}>Items</Col>
                            <Col span={12}>$ {addDecimals(cart.itemsPrice)}</Col>
                         </Row>
-                        <Divider />
+                        <Divider className=" m-3" />
                         <Row>
                            <Col span={12}>Shipping</Col>
                            <Col span={12}>
                               $ {addDecimals(cart.shippingPrice)}
                            </Col>
                         </Row>
-                        <Divider />
+                        <Divider className=" m-3" />
                         <Row>
                            <Col span={12}>Tax</Col>
                            <Col span={12}>${addDecimals(cart.taxPrice)}</Col>
                         </Row>
-                        <Divider />
+                        <Divider className=" m-3" />
                         <Row>
                            <Col span={12}>Total</Col>
                            <Col span={12}>${addDecimals(cart.totalPrice)}</Col>
                         </Row>
                         {user && !user.isAdmin && (
                            <>
-                              <Divider />
+                              <Divider className=" m-3" />
                               <Row>
                                  <Col span={24}>
                                     <Button

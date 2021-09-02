@@ -2,7 +2,7 @@ import { Table, Tag } from "antd";
 import React from "react";
 import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { useMyOrders } from "../hook/order";
+import { useMyOrders } from "@/hook/order";
 import Loader from "./Loader";
 const columns = [
    {

@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 let userInfoFromStorage = null;
-// if (typeof window !== "undefined") {
-//    userInfoFromStorage = localStorage.getItem("userInfo")
-//       ? JSON.parse(localStorage.getItem("userInfo"))
-//       : null;
-// }
+if (typeof window !== "undefined") {
+   userInfoFromStorage = localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : null;
+}
 const userLoginReducer = createSlice({
    name: "userLoginReducer",
    initialState: {

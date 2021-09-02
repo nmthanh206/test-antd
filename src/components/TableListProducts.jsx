@@ -1,14 +1,16 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Col, Row, Space, Table, Tag } from "antd";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+
 import { useMutationDeleteProduct, useListProducts } from "@/hook/product";
 import Loader from "./Loader";
 import Link from "next/link";
-import { stringToColour } from "@/Util/generateColor";
+import { stringToColour } from "@/utils/generateColor";
 import Modal from "antd/lib/modal/Modal";
+import { useRouter } from "next/router";
 const TableListProducts = ({ userInfo }) => {
-   const { pageNumber = 1, keyword = "" } = useParams();
+   const router = useRouter();
+   const { pageNumber = 1, keyword = "" } = router.query;
    const [isModalVisible, setIsModalVisible] = useState(false);
    const [nameDelete, setNameDelete] = useState("");
    const [page, setPage] = useState(pageNumber);
@@ -116,12 +118,10 @@ const TableListProducts = ({ userInfo }) => {
    return (
       <Row>
          <Col span={4} offset={20} className="">
-            <Link
-               to="/admin/product/create"
-               className=" inline-block py-2 px-5 -mr-10 text-white hover:text-white rounded-3xl"
-               style={{ backgroundColor: "#1890ff" }}
-            >
-               <PlusOutlined /> Create Product
+            <Link href="/admin/product/create" passHref>
+               <div className="inline-block py-2 px-5 -mr-10 text-white hover:text-white bg-[#1890ff] rounded-3xl cursor-pointer">
+                  <PlusOutlined /> Create Product
+               </div>
             </Link>
          </Col>
          <Col
