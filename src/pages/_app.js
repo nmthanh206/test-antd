@@ -5,25 +5,20 @@ import "@/styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Hydrate } from "react-query/hydration";
 import { store } from "../store";
 import { Provider } from "react-redux";
 import Layout from "@/components/Layout";
-import { useState } from "react";
+const queryClient = new QueryClient({
+   shared: {
+      suspense: false,
+   },
+   queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+   },
+});
 
 function MyApp({ Component, pageProps }) {
-   const [queryClient] = useState(
-      () =>
-         new QueryClient({
-            shared: {
-               suspense: false,
-            },
-            queries: {
-               refetchOnWindowFocus: false,
-               retry: 1,
-            },
-         })
-   );
    if (typeof window !== "undefined") {
       window.onload = () => {
          document.getElementById("holderStyle").remove();
@@ -33,11 +28,9 @@ function MyApp({ Component, pageProps }) {
       <>
          <QueryClientProvider client={queryClient}>
             <Provider store={store}>
-               <Hydrate state={pageProps.dehydratedState}>
-                  <Layout>
-                     <Component {...pageProps} />
-                  </Layout>
-               </Hydrate>
+               <Layout>
+                  <Component {...pageProps} />
+               </Layout>
             </Provider>
             <ReactQueryDevtools initialIsOpen={false} />
          </QueryClientProvider>

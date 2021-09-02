@@ -15,8 +15,8 @@ import {
 } from "@ant-design/icons";
 
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../reducers/userReducer";
-import { resetCart } from "../reducers/cartReducer";
+import { logout } from "@/reducers/userReducer";
+import { resetCart } from "@/reducers/cartReducer";
 const { Header } = Layout;
 const { SubMenu, Item } = Menu;
 const { Search } = Input;

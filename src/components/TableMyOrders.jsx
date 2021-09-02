@@ -1,7 +1,7 @@
 import { Table, Tag } from "antd";
 import React from "react";
 import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useMyOrders } from "../hook/order";
 import Loader from "./Loader";
 const columns = [
@@ -75,7 +75,7 @@ const columns = [
       // key: "_id",
       dataIndex: "detail",
       render: (_, rowIndex) => (
-         <Link to={`/order/${rowIndex._id}`}>
+         <Link href={`/order/${rowIndex._id}`} passHref>
             <SearchOutlined style={{ fontSize: "20px" }} />
          </Link>
       ),

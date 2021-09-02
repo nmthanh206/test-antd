@@ -1,4 +1,4 @@
-import { Carousel, Image, Spin } from "antd";
+import { Carousel, Image } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useTopProducts } from "@/hook/product";
 import React from "react";
@@ -15,7 +15,6 @@ const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
 const ProductCarousel = () => {
    const { data: productTopRated, isLoading } = useTopProducts();
 
-   // if (isLoading) return <Loader />;
    const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);
    };

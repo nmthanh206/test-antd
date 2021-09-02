@@ -1,6 +1,5 @@
 import { Col, Rate, Row, List, Button } from "antd";
 import { EditTwoTone } from "@ant-design/icons";
-import React from "react";
 import { useSelector } from "react-redux";
 
 const Review = ({ reviews, form, setTextSubmit, setRate }) => {
