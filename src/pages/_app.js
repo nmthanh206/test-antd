@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { store } from "../store";
 import { Provider } from "react-redux";
 import Layout from "@/components/Layout";
+
 const queryClient = new QueryClient({
    shared: {
       suspense: false,
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps }) {
          document.getElementById("holderStyle").remove();
       };
    }
+
    return (
       <>
          <QueryClientProvider client={queryClient}>

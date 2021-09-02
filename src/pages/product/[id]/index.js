@@ -203,48 +203,52 @@ const ProductScreen = () => {
                )}
 
                {user ? (
-                  <>
-                     <h2 className="mt-4 uppercase">Write a Customer Review</h2>
-                     <div>
-                        <div className="mb-4">
-                           <Rate
-                              allowHalf
-                              defaultValue={5}
-                              value={rate}
-                              onChange={(value) => setRate(value)}
-                           />
-                        </div>
-                        <Form
-                           onFinish={handleSubmit}
-                           onFinishFailed={onFinishFailed}
-                           form={form}
-                        >
-                           <Form.Item
-                              name="comment"
-                              // label="Comment"
-                              // labelCol={{ span: 24 }}
-                              wrapperCol={{ span: 24 }}
-                              className="comment"
-                           >
-                              <Input.TextArea
-                                 placeholder="Write your comments"
-                                 showCount
-                                 maxLength={500}
-                                 // style={{ minHeight: "100px" }}
-                                 // autoSize={{ minRows: 5, maxRows: 10 }}
-                                 className="comment"
+                  !user.isAdmin && (
+                     <>
+                        <h2 className="mt-4 uppercase">
+                           Write a Customer Review
+                        </h2>
+                        <div>
+                           <div className="mb-4">
+                              <Rate
+                                 allowHalf
+                                 defaultValue={5}
+                                 value={rate}
+                                 onChange={(value) => setRate(value)}
                               />
-                           </Form.Item>
-                           <Button
-                              type="primary"
-                              htmlType="submit"
-                              className="mb-4 ml-1"
+                           </div>
+                           <Form
+                              onFinish={handleSubmit}
+                              onFinishFailed={onFinishFailed}
+                              form={form}
                            >
-                              {textSubmit}
-                           </Button>
-                        </Form>
-                     </div>
-                  </>
+                              <Form.Item
+                                 name="comment"
+                                 // label="Comment"
+                                 // labelCol={{ span: 24 }}
+                                 wrapperCol={{ span: 24 }}
+                                 className="comment"
+                              >
+                                 <Input.TextArea
+                                    placeholder="Write your comments"
+                                    showCount
+                                    maxLength={500}
+                                    // style={{ minHeight: "100px" }}
+                                    // autoSize={{ minRows: 5, maxRows: 10 }}
+                                    className="comment"
+                                 />
+                              </Form.Item>
+                              <Button
+                                 type="primary"
+                                 htmlType="submit"
+                                 className="mb-4 ml-1"
+                              >
+                                 {textSubmit}
+                              </Button>
+                           </Form>
+                        </div>
+                     </>
+                  )
                ) : (
                   <Message>
                      Please{" "}

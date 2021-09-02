@@ -1,9 +1,10 @@
 import { Col, Row, Form, Input, Button } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useMutationUpdateUserProfile } from "@/hook/user";
 import TableMyOrders from "@/components/TableMyOrders";
+import { useRouter } from "next/router";
 const { Item } = Form;
 const layout = {
    labelCol: { span: 24 },
@@ -15,6 +16,7 @@ const tailLayout = {
 
 const ProfileScreen = () => {
    const [form] = Form.useForm();
+   const router = useRouter();
    const user = useSelector((state) => state.userLogin.user);
    const { mutate: updateUserProfile, isLoading } =
       useMutationUpdateUserProfile();
@@ -34,7 +36,13 @@ const ProfileScreen = () => {
       toast.error(errorInfo.message);
       console.log("Failed:", errorInfo);
    };
-
+   useEffect(() => {
+      if (typeof window !== "undefined") {
+         if (!user) {
+            router.push("/login");
+         }
+      }
+   }, [router, user]);
    if (user)
       return (
          <div className="mt-7">
@@ -111,6 +119,7 @@ const ProfileScreen = () => {
             </Row>
          </div>
       );
+   return <div></div>;
 };
 
 export default ProfileScreen;

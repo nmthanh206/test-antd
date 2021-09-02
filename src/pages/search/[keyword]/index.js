@@ -4,9 +4,8 @@ import Product from "@/components/Product";
 import Loader from "@/components/Loader";
 import { useListProducts } from "@/hook/product/useListProducts";
 import ProductCarousel from "@/components/ProductCarousel";
-import dbConnect from "@/lib/dbConnect";
-import Product2 from "server/models/productModel";
-const HomeScreen = ({ products }) => {
+
+const HomeScreen = ({ products = null }) => {
    const router = useRouter();
    const keyword = router.query.keyword;
    let pageNumber = router.query.pageNumber || 1;
@@ -88,13 +87,3 @@ const HomeScreen = ({ products }) => {
    );
 };
 export default HomeScreen;
-export async function getStaticProps(context) {
-   await dbConnect();
-   let data = await Product2.find({});
-
-   return {
-      props: { products: JSON.parse(JSON.stringify(data)) },
-
-      // revalidate: 30,
-   };
-}

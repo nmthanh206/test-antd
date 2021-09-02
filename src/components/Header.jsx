@@ -101,7 +101,7 @@ const Header2 = () => {
                   </SubMenu>
                )}
 
-               {user?.isAdmin && (
+               {/* {user?.isAdmin && (
                   <SubMenu icon={<UserOutlined />} title="ADMIN" key="admin">
                      <Item key="Users" icon={<TeamOutlined />}>
                         <Link href="/admin/userlist">Users</Link>
@@ -113,7 +113,7 @@ const Header2 = () => {
                         <Link href="/admin/orderlist">Orders</Link>
                      </Item>
                   </SubMenu>
-               )}
+               )} */}
             </Menu>
          </Header>
       </Affix>

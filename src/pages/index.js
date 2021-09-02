@@ -5,7 +5,8 @@ import Loader from "@/components/Loader";
 import { useListProducts } from "@/hook/product/useListProducts";
 import ProductCarousel from "@/components/ProductCarousel";
 import dbConnect from "@/lib/dbConnect";
-import Product2 from "server/models/productModel";
+import Product2 from "@/models/productModel";
+
 const HomeScreen = ({ products }) => {
    const router = useRouter();
    const keyword = router.query.keyword;
@@ -19,6 +20,7 @@ const HomeScreen = ({ products }) => {
       },
       products
    );
+
    if (isLoading || !data)
       return (
          <div className="-mt-36">
