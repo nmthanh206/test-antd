@@ -23,9 +23,11 @@ import Loader from "@/components/Loader";
 import Message from "@/components/Message";
 import Review from "@/components/Review";
 import { addToCart } from "@/reducers/cartReducer";
+import productModel from "@/models/productModel";
+import dbConnect from "@/lib/dbConnect";
 
 const { Option } = Select;
-const ProductScreen = () => {
+const ProductScreen = ({ productStatic }) => {
    const router = useRouter();
    const dispatch = useDispatch();
    const [form] = Form.useForm();
@@ -33,7 +35,15 @@ const ProductScreen = () => {
    const { id } = router.query;
    const [textSubmit, setTextSubmit] = useState("Submit");
    const [rate, setRate] = useState(5);
-   const { data: product, isLoading, isError, error } = useProductDetails(id);
+   let {
+      data: product,
+      isLoading,
+      isError,
+      error,
+   } = useProductDetails(id, productStatic);
+   if (!product) {
+      product = productStatic;
+   }
    const { mutate: createReview, isLoadingReview } =
       useMutationCreatetReview(id);
    const { mutate: updateReview, isLoadingUpdateReview } =
@@ -245,3 +255,27 @@ const ProductScreen = () => {
 };
 
 export default ProductScreen;
+
+export async function getStaticPaths() {
+   await dbConnect();
+   const products = await productModel.find();
+
+   const paths = products.map((product) => ({
+      params: { id: product._id.toString() },
+   }));
+
+   return { paths, fallback: "blocking" };
+}
+
+export async function getStaticProps({ params }) {
+   await dbConnect();
+
+   const product = await productModel.findById(params.id);
+
+   return {
+      props: {
+         product: JSON.parse(JSON.stringify(product)),
+      },
+      revalidate: 10,
+   };
+}

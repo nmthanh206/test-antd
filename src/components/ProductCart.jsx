@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { DeleteOutlined } from "@ant-design/icons";
 import { Col, Divider, Row, Form, Select } from "antd";
-import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { removeFromCart, updateQtyItem } from "../reducers/cartReducer";
+import { removeFromCart, updateQtyItem } from "@/reducers/cartReducer";
 
 const ProductCart = ({ item }) => {
    const [form] = Form.useForm();
@@ -23,7 +22,7 @@ const ProductCart = ({ item }) => {
                </div>
             </Col>
             <Col span={7}>
-               <Link to={`/product/${item.id}`}>{item.name}</Link>
+               <Link href={`/product/${item.id}`}>{item.name}</Link>
             </Col>
             <Col span={3}>
                <h3>$ {item.price}</h3>
