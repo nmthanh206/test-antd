@@ -1,13 +1,13 @@
-import Layout from "@/components/Layout";
 import "antd/dist/antd.less";
-import "@/styles/globals.less";
+// import "@/styles/globals.less";
 import "@/styles/tailwind.css";
 import "@/styles/globals.css";
-
+import "react-toastify/dist/ReactToastify.css";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
-// import { useEffect } from "react";
-
+import { store } from "../store";
+import { Provider } from "react-redux";
+import Layout from "@/components/Layout";
 const queryClient = new QueryClient({
    shared: {
       suspense: false,
@@ -19,18 +19,6 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }) {
-   // useEffect(() => {
-   //    const removeFouc = (foucElement) => {
-   //       foucElement.className = foucElement.className.replace(
-   //          "no-fouc",
-   //          "fouc"
-   //       );
-   //    };
-   //    setTimeout(function () {
-   //       removeFouc(document.querySelector("body"));
-   //    }, 200);
-   // }, []);
-
    if (typeof window !== "undefined") {
       window.onload = () => {
          document.getElementById("holderStyle").remove();
@@ -38,14 +26,27 @@ function MyApp({ Component, pageProps }) {
    }
    return (
       <>
-         <Layout hasSider>
-            <QueryClientProvider client={queryClient}>
-               <Component {...pageProps} />
-               <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-         </Layout>
+         <QueryClientProvider client={queryClient}>
+            <Provider store={store}>
+               <Layout>
+                  <Component {...pageProps} />
+               </Layout>
+            </Provider>
+            <ReactQueryDevtools initialIsOpen={false} />
+         </QueryClientProvider>
       </>
    );
 }
 
 export default MyApp;
+// useEffect(() => {
+//    const removeFouc = (foucElement) => {
+//       foucElement.className = foucElement.className.replace(
+//          "no-fouc",
+//          "fouc"
+//       );
+//    };
+//    setTimeout(function () {
+//       removeFouc(document.querySelector("body"));
+//    }, 200);
+// }, []);

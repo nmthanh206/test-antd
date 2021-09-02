@@ -1,35 +1,30 @@
-import React from "react";
-import { Row, Col, Alert } from "antd";
-// import Product from "../components/Product";
-// import Loader from "../components/Loader";
-import { useListProducts } from "@/hook/product/useListProducts";
+import { useRouter } from "next/router";
+import { Row, Col, Pagination, Alert } from "antd";
 import Product from "@/components/Product";
-import Product2 from "server/models/productModel";
-
+import Loader from "@/components/Loader";
+import { useListProducts } from "@/hook/product/useListProducts";
+import ProductCarousel from "@/components/ProductCarousel";
 import dbConnect from "@/lib/dbConnect";
-
-const Home = ({ products }) => {
-   const keyword = "";
-   let pageNumber = 1;
+import Product2 from "server/models/productModel";
+const HomeScreen = ({ products }) => {
+   const router = useRouter();
+   const keyword = router.query.keyword;
+   let pageNumber = router.query.pageNumber || 1;
 
    if (pageNumber < 1) pageNumber = 1;
-   // const data = {};
-   const { data, isLoading, isError, error, isFetching } = useListProducts(
+   const { data, isLoading, isError, error } = useListProducts(
       {
          pageNumber,
          keyword,
       },
       products
    );
-
-   // console.log(isFetching);
-   // console.log(isLoading);
-   // if (isLoading || !data)
-   //    return (
-   //       <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
-   //          <Spin size="large" className=" spin" />
-   //       </div>
-   //    );
+   if (isLoading || !data)
+      return (
+         <div className="-mt-36">
+            <Loader />
+         </div>
+      );
 
    if (isError)
       return (
@@ -40,6 +35,17 @@ const Home = ({ products }) => {
 
    return (
       <div className="">
+         <Row>
+            <Col span={24}>
+               {!keyword ? (
+                  <ProductCarousel />
+               ) : (
+                  <h1>
+                     Search results for '{keyword}' : {data.total} results
+                  </h1>
+               )}
+            </Col>
+         </Row>
          <div className="px-5">
             <Row gutter={16}>
                {(data.products || products).map((product) => (
@@ -57,16 +63,37 @@ const Home = ({ products }) => {
                ))}
             </Row>
          </div>
+         <Row>
+            <Col md={20} xs={24} offset={3}>
+               <div className="flex justify-center items-center mt-6 mr-24">
+                  <Pagination
+                     defaultCurrent={1}
+                     responsive
+                     current={Number(pageNumber)}
+                     total={(data || products).total}
+                     pageSize={data?.pageSize || 8}
+                     // eslint-disable-next-line no-unused-vars
+                     onChange={(page, pageSize) =>
+                        history.push(`/page/${page}`)
+                     }
+                     showQuickJumper
+                     showTotal={(total, range) =>
+                        `${range[0]}-${range[1]} of ${total} items`
+                     }
+                  />
+               </div>
+            </Col>
+         </Row>
       </div>
    );
 };
-export default Home;
+export default HomeScreen;
 export async function getStaticProps(context) {
    await dbConnect();
-   let data = await Product2.find({}); /* find all the data in our database */
+   let data = await Product2.find({});
 
    return {
-      props: { products: JSON.parse(JSON.stringify(data)) }, // will be passed to the page component as props
+      props: { products: JSON.parse(JSON.stringify(data)) },
 
       // revalidate: 30,
    };

@@ -10,7 +10,7 @@ const authUser = asyncHandler(async (req, res) => {
    const { email, password } = req.body;
    // console.log("server", { email, password });
    const user = await User.findOne({ email });
-   console.log(req.get("host"));
+   console.log(req.headers.host);
    if (user && (await user.matchPassword(password))) {
       res.json({
          _id: user._id,

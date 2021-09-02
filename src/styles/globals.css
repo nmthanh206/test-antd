@@ -14,3 +14,72 @@
    width: 30px !important;
    height: 30px !important;
 }
+
+.colorCarousel {
+   height: 330px;
+}
+.colorCarousel .ant-image {
+   width: 300px;
+   height: auto;
+}
+
+.colorCarousel .ant-image-mask-info {
+   display: none;
+}
+/* .colorCarousel
+   .slick-track
+   .slick-slide.slick-active.slick-current
+   > div
+   > div
+   > div {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-direction: column;
+} */
+
+.colorCarousel .ant-image-img,
+.ant-image-mask {
+   border-radius: 30%;
+   padding-bottom: 10px;
+}
+.colorCarousel .slick-dots-bottom {
+   bottom: 0px;
+}
+.ant-image-mask {
+   display: none;
+}
+
+.ant-carousel .slick-prev,
+.ant-carousel .slick-next,
+.ant-carousel .slick-prev:hover,
+.ant-carousel .slick-next:hover,
+.ant-carousel .slick-prev:focus,
+.ant-carousel .slick-next:focus {
+   font-size: 40px;
+   color: whitesmoke;
+   z-index: 2;
+   top: 35%;
+}
+
+.ant-carousel .slick-prev {
+   left: 20px;
+}
+.ant-carousel .slick-next {
+   right: 40px;
+}
+
+.ant-carousel span svg {
+   cursor: pointer;
+   display: inline-block;
+   height: 80px;
+   width: 40px;
+   transition: background-color 0.1s;
+}
+.ant-carousel span svg:hover {
+   background-color: #1a94ff;
+   display: inline-block;
+   height: 80px;
+   width: 40px;
+   color: wheat;
+}

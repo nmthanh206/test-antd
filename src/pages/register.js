@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Input, Button, Form } from "antd";
 import Link from "next/link";
+import { useMutationRegisterUser } from "@/hook/user";
 import { useRouter } from "next/router";
-
-import { useMutationLoginUser } from "@/hook/user";
-import { useSelector } from "react-redux";
 const { Item } = Form;
 
 const layout = {
@@ -15,33 +13,25 @@ const layout = {
 const tailLayout = {
    wrapperCol: { offset: 8, span: 16 },
 };
-const tailLayout2 = {
-   wrapperCol: { offset: 16, span: 8 },
-};
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
    const router = useRouter();
    const [form] = Form.useForm();
    const [buttonDisabled, setButtonDisabled] = useState(false);
-
    const redirect =
       Object.keys(router.query).length !== 0
          ? router.asPath.split("=")[1]
          : "/";
 
-   // const redirect = "/";
+   const { mutate, isLoading } = useMutationRegisterUser(router, redirect);
 
-   const user = useSelector((state) => state.userLogin.user);
-   const { mutate, isLoading } = useMutationLoginUser(router);
-
-   useEffect(() => {
-      if (user) {
-         router.push(redirect);
+   //
+   const handleSubmit = async ({ name, email, password, confirmPassword }) => {
+      if (password !== confirmPassword) {
+         toast.error("Passwords do not match");
+      } else {
+         mutate({ name, email, password });
       }
-   }, [user, redirect, router]);
-
-   const handleSubmit = async ({ email, password }) => {
-      mutate({ email, password });
    };
    const onFinishFailed = (errorInfo) => {
       toast.error(errorInfo.message);
@@ -56,19 +46,28 @@ const LoginScreen = () => {
    return (
       <div className=" pt-10 pr-14 pb-1 mx-auto mt-36 max-w-md bg-white">
          <center>
-            <h2 className="mb-4">LOGIN</h2>
+            <h2 className="mb-4">REGISTER</h2>
          </center>
          <Form
+            className="ml-1"
             name="basic"
             {...layout}
             form={form}
             onFinish={handleSubmit}
             onFinishFailed={onFinishFailed}
-            initialValues={{ email: "john@example.com", password: "123456" }}
+            initialValues={{
+               name: "test",
+               email: "test@example.com",
+               password: "123456",
+               confirmPassword: "123456",
+            }}
             onFieldsChange={onChangeHandler}
          >
+            <Item label="Name" name="name" rules={[{ required: true }]}>
+               <Input />
+            </Item>
             <Item
-               label="Email: "
+               label="Email"
                name="email"
                rules={[
                   {
@@ -79,9 +78,12 @@ const LoginScreen = () => {
             >
                <Input />
             </Item>
+            <Item label="Password" name="password" rules={[{ required: true }]}>
+               <Input.Password />
+            </Item>
             <Item
-               label="Password: "
-               name="password"
+               label="Confirm Password"
+               name="confirmPassword"
                rules={[{ required: true }]}
             >
                <Input.Password />
@@ -96,25 +98,18 @@ const LoginScreen = () => {
                      disabled={buttonDisabled}
                      loading={isLoading}
                   >
-                     Login
+                     Register
                   </Button>
                   <div>
-                     New Customer?{" "}
+                     Have an Account?{" "}
                      <Link
                         href={
-                           redirect
-                              ? `/register?redirect=${redirect}`
-                              : "/register"
+                           redirect ? `/login?redirect=${redirect}` : "/login"
                         }
                      >
-                        Register
+                        Login
                      </Link>
                   </div>
-               </div>
-            </Item>
-            <Item {...tailLayout2}>
-               <div className="-mt-8">
-                  <Link href="/forgotpassword">Forgot password</Link>
                </div>
             </Item>
          </Form>
@@ -122,4 +117,4 @@ const LoginScreen = () => {
    );
 };
 
-export default LoginScreen;
+export default RegisterScreen;

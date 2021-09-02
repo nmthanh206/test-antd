@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { loginUser } from "../../reducers/userReducer";
 import { catchAsyn } from "@/utils/catchAsync";
 
-const login = catchAsyn(async ({ email, password }) => {
+export const register = catchAsyn(async ({ name, email, password }) => {
    const config = {
       headers: {
          "Content-Type": "application/json",
@@ -13,23 +13,29 @@ const login = catchAsyn(async ({ email, password }) => {
    };
 
    const { data } = await axios.post(
-      "/api/users/login",
-      { email, password },
+      "/api/users",
+      { name, email, password },
       config
    );
+
    return data;
 });
-
-export const useMutationLoginUser = () => {
+export const useMutationRegisterUser = (history, redirect) => {
    const dispatch = useDispatch();
-   return useMutation(login, {
+   return useMutation(register, {
       onSuccess: (user) => {
+         //   console.log(user);
+
+         toast.success(`Register Successfully ${user.name}`);
          dispatch(loginUser(user));
-         toast.success(`Login Successfully ${user.name}`);
+         history.push(redirect);
       },
       onError: (err) => {
          console.log(err);
          toast.error(`Error ${err}`);
       },
+      // onSettled: (data) => {
+      //   toast.info(`!!!! ${JSON.stringify(data, null, 2)}`);
+      // },
    });
 };
