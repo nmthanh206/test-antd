@@ -13,25 +13,6 @@ export default class Email {
    }
 
    async newTransport() {
-      // let testAccount = await nodemailer.createTestAccount();
-      // console.log(testAccount);
-      // return nodemailer.createTransport({
-      //   host: "smtp.ethereal.email",
-      //   port: 587,
-      //   secure: false, // true for 465, false for other ports
-      //   auth: {
-      //     user: testAccount.user, // generated ethereal user
-      //     pass: testAccount.pass, // generated ethereal password
-      //   },
-      // });
-      // return nodemailer.createTransport({
-      //   service: "gmail",
-      //   host: "smtp.gmail.com",
-      //   auth: {
-      //     user: "",
-      //     pass: "",
-      //   },
-      // });
       const tranporter = nodemailer.createTransport({
          service: "gmail",
          auth: {

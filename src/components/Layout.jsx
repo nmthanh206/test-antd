@@ -3,6 +3,7 @@ import { Layout as Layout } from "antd";
 import { ToastContainer } from "react-toastify";
 const { Footer, Sider, Content } = Layout;
 import Header from "./Header";
+import Container from "./Container";
 
 export default function Layout2({ children }) {
    return (
@@ -17,10 +18,12 @@ export default function Layout2({ children }) {
 
          <Layout className="">
             <Header />
-            <Layout hasSider>
-               {false && <Sider className=" bg-blue-200">Sider</Sider>}
-               <Content className="min-h-[81vh]">{children}</Content>
-            </Layout>
+            <Container>
+               <Layout hasSider>
+                  {false && <Sider className=" bg-blue-200">Sider</Sider>}
+                  <Content className="min-h-[81vh]">{children}</Content>
+               </Layout>
+            </Container>
             <Footer className="!bg-green-300">Footer</Footer>
          </Layout>
       </>
