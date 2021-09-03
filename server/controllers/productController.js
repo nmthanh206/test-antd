@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import dbConnect from "@/lib/dbConnect";
 import asyncHandler from "express-async-handler";
 import Product from "server/models/productModel";
 
@@ -8,6 +9,7 @@ import Product from "server/models/productModel";
 const getProducts = asyncHandler(async (req, res) => {
    // const pageSize = 10;
    // console.log(req.headers.referer);
+   await dbConnect();
    const pageSize = Number(process.env.PAGE_SIZE) || 8;
 
    const page = Number(req.query.pageNumber) || 1;

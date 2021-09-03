@@ -4,10 +4,11 @@ import Product from "@/components/Product";
 import Loader from "@/components/Loader";
 import { useListProducts } from "@/hook/product/useListProducts";
 import ProductCarousel from "@/components/ProductCarousel";
-import dbConnect from "@/lib/dbConnect";
-import Product2 from "@/models/productModel";
+import { useEffect } from "react";
+// import dbConnect from "@/lib/dbConnect";
+// import Product2 from "@/models/productModel";
 
-const HomeScreen = ({ products }) => {
+const HomeScreen = ({ products = [] }) => {
    const router = useRouter();
    const keyword = router.query.keyword;
    let pageNumber = router.query.pageNumber || 1;
@@ -20,6 +21,9 @@ const HomeScreen = ({ products }) => {
       },
       products
    );
+   // useEffect(() => {
+
+   //    //    router.push(`/?keyword=${keyword}&pageNumber=${pageNumber}`);
 
    if (isLoading || !data)
       return (
@@ -75,7 +79,10 @@ const HomeScreen = ({ products }) => {
                      total={(data || products).total}
                      pageSize={data?.pageSize || 8}
                      // eslint-disable-next-line no-unused-vars
-                     onChange={(page, pageSize) => router.push(`/page/${page}`)}
+                     // onChange={(page, pageSize) => router.push(`/page/${page}`)}
+                     onChange={(page, pageSize) =>
+                        router.push(`/?pageNumber=${page}`)
+                     }
                      showQuickJumper
                      showTotal={(total, range) =>
                         `${range[0]}-${range[1]} of ${total} items`
@@ -88,13 +95,14 @@ const HomeScreen = ({ products }) => {
    );
 };
 export default HomeScreen;
-export async function getStaticProps(context) {
-   await dbConnect();
-   let data = await Product2.find({});
 
-   return {
-      props: { products: JSON.parse(JSON.stringify(data)) },
+// export async function getStaticProps(context) {
+//    await dbConnect();
+//    let data = await Product2.find({});
 
-      // revalidate: 30,
-   };
-}
+//    return {
+//       props: { products: JSON.parse(JSON.stringify(data)) },
+
+//       // revalidate: 30,
+//    };
+// }
