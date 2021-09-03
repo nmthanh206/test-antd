@@ -13,7 +13,7 @@ export function catchAsyn(fn) {
          console.log(err);
          if (err === "Not authorized as an admin") {
             document.location.href = "/login";
-            console.log("kick no");
+            // console.log("kick no");
          }
          throw new Error(err);
       }

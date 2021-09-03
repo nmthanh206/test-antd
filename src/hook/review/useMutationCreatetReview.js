@@ -5,7 +5,7 @@ import { catchAsyn } from "@/utils/catchAsync";
 
 const createProductReview = catchAsyn(
    async ({ userInfo, productId, review }) => {
-      console.log({ userInfo, productId, review });
+      // console.log({ userInfo, productId, review });
       const config = {
          headers: {
             "Content-Type": "application/json",

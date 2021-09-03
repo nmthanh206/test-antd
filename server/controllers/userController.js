@@ -169,7 +169,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
    //// 1) Get user based on POSTed email
-   console.log(req.body);
+   // console.log(req.body);
    const user = await User.findOne({ email: req.body.email });
    if (!user) {
       res.status(404);

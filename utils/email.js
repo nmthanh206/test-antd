@@ -16,8 +16,8 @@ export default class Email {
       const tranporter = nodemailer.createTransport({
          service: "gmail",
          auth: {
-            user: "nmth206@gmail.com",
-            pass: "",
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
          },
       });
       return tranporter;
@@ -36,14 +36,14 @@ export default class Email {
          html,
          text: convert(html),
       };
-      console.log(mailOptions);
+      // console.log(mailOptions);
 
       // 3) Create a transport and send email
 
       // await this.newTransport().then((fun) => fun.sendMail(mailOptions));
       const transporter = await this.newTransport();
       const result = await transporter.sendMail(mailOptions);
-      console.log(result);
+      // console.log(result);
    }
 
    async sendWelcome() {

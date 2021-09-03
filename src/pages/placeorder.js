@@ -60,7 +60,7 @@ const PlaceOrderScreen = () => {
          taxPrice: cart.taxPrice,
          totalPrice: cart.totalPrice,
       };
-      console.log(userInfo, order);
+      // console.log(userInfo, order);
       createOrder({ userInfo, order });
    };
    return (

@@ -59,6 +59,10 @@ const ProductEditScreen = () => {
          setFileList(newFileList);
       if (!changed) setChanged(true);
    };
+
+   const customRequest = async (options) => {
+      options.onSuccess(null, options.file); //? khoi pass gi vo cung dc call de no ket thuc loading hien image
+   };
    useEffect(() => {
       form.setFieldsValue({
          name: productDetail ? productDetail.name : "Sample name",
@@ -118,6 +122,7 @@ const ProductEditScreen = () => {
                         listType="picture-card"
                         accept="image/png, image/jpeg"
                         maxCount={1}
+                        customRequest={customRequest}
                         onPreview={onPreview}
                         beforeUpload={checkValid}
                         className="upload-list-inline"

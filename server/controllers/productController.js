@@ -129,7 +129,7 @@ const updateProduct = asyncHandler(async (req, res) => {
    const product = await Product.findById(req.query.id);
 
    if (product.image !== image) {
-      console.log(product.image);
+      // console.log(product.image);
       try {
          await unlink(`.${product.image}`);
 
