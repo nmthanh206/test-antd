@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "antd";
 import { SearchOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { Rate } from "antd";
 import Link from "next/link";
 import Image from "next/image";
 const Product = ({ product, isLoading }) => {
+   const [imgSrc, setImgSrc] = useState(product.image);
+
    const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);
    };
@@ -47,23 +49,29 @@ const Product = ({ product, isLoading }) => {
             cover={
                <Link href={`/product/${product._id}`}>
                   <a>
-                     <img
+                     {/* <img
                         alt={product.name}
                         src={product.image}
                         // src="https://res.cloudinary.com/dujzi1wfz/image/upload/v1630656715/eockwnedun8ujxyqizmr.png"
                         className=" w-full"
                         // style={{ maxHeight: "230px" }}
+                     /> */}
+
+                     <Image
+                        alt={product.name}
+                        src={
+                           imgSrc.startsWith("/images")
+                              ? imgSrc
+                              : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${imgSrc}`
+                        }
+                        onError={() => {
+                           setImgSrc(
+                              `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${imgSrc}`
+                           );
+                        }}
+                        width={290}
+                        height={230}
                      />
-                     <div>
-                        {/* <Image
-                           alt={product.name}
-                           // src={product.image}
-                           src="https://res.cloudinary.com/dujzi1wfz/image/upload/v1630656715/eockwnedun8ujxyqizmr.png"
-                           // className=" w-full"
-                           layout="fill"
-                           width={280}
-                        /> */}
-                     </div>
                   </a>
                </Link>
             }

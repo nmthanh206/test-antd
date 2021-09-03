@@ -88,7 +88,7 @@ export default function Layout2({ children }) {
                </Content>
             </Layout>
 
-            <Footer className="!bg-green-300">Footer</Footer>
+            {/* <Footer className="">Footer</Footer> */}
          </Layout>
       </>
    );

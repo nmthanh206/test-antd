@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { Row, Col, Pagination, Alert } from "antd";
 import Product from "@/components/Product";
-import Loader from "@/components/Loader";
 import { useListProducts } from "@/hook/product/useListProducts";
 import ProductCarousel from "@/components/ProductCarousel";
 import { useEffect } from "react";
+import { useTopProducts } from "@/hook/product";
 
 // import dbConnect from "@/lib/dbConnect";
 // import Product2 from "@/models/productModel";
@@ -16,14 +16,19 @@ const HomeScreen = () => {
    let pageNumber = router.query.pageNumber || 1;
 
    if (pageNumber < 1) pageNumber = 1;
+
+   const { data: productTopRated, isLoading: isLoadingTop } =
+      useTopProducts(keyword);
    const { data, isLoading, isError, error } = useListProducts({
       pageNumber,
       keyword,
    });
+
    useEffect(() => {
       if (typeof window !== "undefined") {
          if (data?.page > data?.pages)
             router.push(`/?keyword=${keyword}&pageNumber=${data?.pages}`);
+         // setEnabled(true);
       }
    }, []);
 
@@ -40,7 +45,7 @@ const HomeScreen = () => {
             <Alert message={error.message} type="error" />
          </div>
       );
-   console.log("index", Boolean(keyword));
+
    return (
       <div className="">
          <Row>
@@ -50,7 +55,10 @@ const HomeScreen = () => {
                      Search results for '{keyword}' : {data?.total} results
                   </h1>
                ) : (
-                  <ProductCarousel keyword={keyword} />
+                  <ProductCarousel
+                     productTopRated={productTopRated}
+                     isLoading={isLoadingTop}
+                  />
                )}
             </Col>
          </Row>
@@ -73,7 +81,7 @@ const HomeScreen = () => {
          </div>
          <Row>
             <Col md={20} xs={24} offset={3}>
-               <div className="flex justify-center items-center mt-6 mr-24">
+               <div className="flex justify-center items-center pt-5 pb-10 mt-6 mr-24">
                   {!isLoading && (
                      <Pagination
                         defaultCurrent={1}

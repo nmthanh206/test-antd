@@ -145,37 +145,37 @@ const OrderScreen = () => {
                </Col>
                <Col span={6} pull={1}>
                   <div>
-                     <div className="spaceDivider">
+                     <div className="p-4 py-2 mr-7 text-base border-[1px] border-gray-200 border-solid">
                         <Row>
                            <Col span={24}>
                               <h1 className="text-center">Order Summary</h1>
                            </Col>
                         </Row>
-                        <Divider />
+                        <Divider className="m-3" />
                         <Row>
                            <Col span={12}>Items</Col>
                            <Col span={12}>$ {order.itemsPrice}</Col>
                         </Row>
-                        <Divider />
+                        <Divider className="m-3" />
                         <Row>
                            <Col span={12}>Shipping</Col>
                            <Col span={12}>
                               $ {addDecimals(order.shippingPrice)}
                            </Col>
                         </Row>
-                        <Divider />
+                        <Divider className="m-3" />
                         <Row>
                            <Col span={12}>Tax</Col>
                            <Col span={12}>$ {addDecimals(order.taxPrice)}</Col>
                         </Row>
-                        <Divider />
+                        <Divider className="m-3" />
                         <Row>
                            <Col span={12}>Total</Col>
                            <Col span={12}>
                               $ {addDecimals(order.totalPrice)}
                            </Col>
                         </Row>
-                        {!order.isPaid && <Divider />}
+                        {!order.isPaid && <Divider className="m-3" />}
                         <Row>
                            <Col span={24}>
                               {isLoading ? (

@@ -49,7 +49,7 @@ const ShippingScreen = () => {
             <div className="pl-20 text-xl text-center text-gray-500">
                Select Method
             </div>
-            <div className=" box-border p-5 ml-3">
+            <div className=" box-border p-5 ml-[120px]">
                <Radio.Group onChange={onChange} value={payment}>
                   <Radio value="PayPal">PayPal or Credit Card</Radio>
                   <Radio value="Stripe">Stripe</Radio>

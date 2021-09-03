@@ -4,7 +4,7 @@ import { Col, Divider, Row, Form, Select } from "antd";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { removeFromCart, updateQtyItem } from "@/reducers/cartReducer";
-
+import Image from "next/image";
 const ProductCart = ({ item }) => {
    const [form] = Form.useForm();
    const dispatch = useDispatch();
@@ -13,11 +13,21 @@ const ProductCart = ({ item }) => {
       <div>
          <Row align="middle" justify="start" gutter={[16, 0]}>
             <Col span={5}>
-               <div>
-                  <img
+               <div className=" !p-7">
+                  {/* <img
                      src={item.image}
                      alt={item.name}
                      className="p-7 w-full"
+                  /> */}
+                  <Image
+                     alt={item.name}
+                     src={
+                        item.image.startsWith("/images")
+                           ? item.image
+                           : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${item.image}`
+                     }
+                     width={115}
+                     height={91}
                   />
                </div>
             </Col>

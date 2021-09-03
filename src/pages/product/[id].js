@@ -14,6 +14,7 @@ import {
    Image,
    Divider,
 } from "antd";
+// import Image from "next/link";
 import { useProductDetails } from "@/hook/product";
 import {
    useMutationCreatetReview,
@@ -32,6 +33,7 @@ const ProductScreen = () => {
    const router = useRouter();
    const dispatch = useDispatch();
    const [form] = Form.useForm();
+
    const user = useSelector((state) => state.userLogin.user);
    const { id } = router.query;
 
@@ -94,7 +96,12 @@ const ProductScreen = () => {
             <Image
                width="98%"
                height="auto"
-               src={product.image}
+               // layout="fill"
+               src={
+                  product.image.startsWith("/images")
+                     ? product.image
+                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
+               }
                alt={product.image}
                className="cursor-pointer"
             />

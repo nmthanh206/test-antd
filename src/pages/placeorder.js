@@ -11,7 +11,7 @@ import Message from "@/components/Message";
 import { useMutationCreateOrder } from "@/hook/order";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-
+import Image from "next/link";
 const { Step } = Steps;
 
 const PlaceOrderScreen = () => {
@@ -139,6 +139,17 @@ const PlaceOrderScreen = () => {
                                           alt={item.name}
                                           width="50%"
                                        />
+
+                                       {/* <Image
+                                          alt={item.name}
+                                          src={
+                                             item.image.startsWith("/images")
+                                                ? item.image
+                                                : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${item.image}`
+                                          }
+                                          width={51}
+                                          height={40}
+                                       /> */}
                                     </div>
                                  </Col>
                                  <Col span={10}>
@@ -159,37 +170,42 @@ const PlaceOrderScreen = () => {
                </Col>
                <Col span={6} pull={1}>
                   <div>
-                     <div className="p-4 border-[1px] border-gray-200 border-solid spaceDivider">
+                     <div className="p-4 py-2 mr-7 text-base border-[1px] border-gray-200 border-solid">
                         <Row>
                            <Col span={24}>
                               <h1 className="text-center">Order Summary</h1>
                            </Col>
                         </Row>
-                        <Divider className=" m-3" />
+                        <Divider className="m-3" />
+
                         <Row>
                            <Col span={12}>Items</Col>
                            <Col span={12}>$ {addDecimals(cart.itemsPrice)}</Col>
                         </Row>
-                        <Divider className=" m-3" />
+                        <Divider className="m-3" />
+
                         <Row>
                            <Col span={12}>Shipping</Col>
                            <Col span={12}>
                               $ {addDecimals(cart.shippingPrice)}
                            </Col>
                         </Row>
-                        <Divider className=" m-3" />
+                        <Divider className="m-3" />
+
                         <Row>
                            <Col span={12}>Tax</Col>
                            <Col span={12}>${addDecimals(cart.taxPrice)}</Col>
                         </Row>
-                        <Divider className=" m-3" />
+                        <Divider className="m-3" />
+
                         <Row>
                            <Col span={12}>Total</Col>
                            <Col span={12}>${addDecimals(cart.totalPrice)}</Col>
                         </Row>
                         {user && !user.isAdmin && (
                            <>
-                              <Divider className=" m-3" />
+                              <Divider className="m-2" />
+
                               <Row>
                                  <Col span={24}>
                                     <Button

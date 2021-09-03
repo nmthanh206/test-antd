@@ -10,7 +10,6 @@ const listTopProducts = catchAsyn(async () => {
 });
 
 export const useTopProducts = (keyword) => {
-   console.log("haha", Boolean(keyword));
    return useQuery("listTopProducts", listTopProducts, {
       onSuccess: (products) => {
          // toast.success(`Get Product Successfully`);

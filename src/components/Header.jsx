@@ -36,7 +36,9 @@ const Header2 = () => {
    };
 
    // const onSearch = (keyword) => router.push(`/search/${keyword}`);
-   const onSearch = (keyword) => router.push(`/?keyword=${keyword}`);
+   // const onSearch = (keyword) => router.push(`/?keyword=${keyword}`);
+   const onSearch = (keyword) => router.push(`/search/${keyword}`);
+
    return (
       <Affix className="z-40">
          <Header>
