@@ -1,6 +1,6 @@
 import cloudinary from "cloudinary";
 import base from "@/utils/base";
-import asyncHandler from "express-async-handler";
+import { asyncHandler } from "@/utils/asyncHandler";
 const handler = base().delete(
    asyncHandler(async (req, res) => {
       const { id } = req.query;

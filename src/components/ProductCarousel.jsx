@@ -12,8 +12,9 @@ const SlickArrowRight = ({ currentSlide, slideCount, ...props }) => (
    <RightOutlined {...props} />
 );
 
-const ProductCarousel = () => {
-   const { data: productTopRated, isLoading } = useTopProducts();
+const ProductCarousel = ({ keyword }) => {
+   console.log("keyword", keyword);
+   const { data: productTopRated, isLoading } = useTopProducts(keyword);
 
    const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);

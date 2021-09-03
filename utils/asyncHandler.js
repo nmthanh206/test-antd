@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 
-export const asyncUtil = (fn) =>
+export const asyncHandler = (fn) =>
    async function asyncUtilWrap(...args) {
       await dbConnect();
       const fnReturn = fn(...args);

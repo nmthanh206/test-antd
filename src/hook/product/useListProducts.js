@@ -14,10 +14,9 @@ const getProducts = catchAsyn(async ({ queryKey }) => {
    return data;
 });
 
-export const useListProducts = ({ pageNumber, keyword }, initialData) => {
+export const useListProducts = ({ pageNumber, keyword }) => {
    const dispatch = useDispatch();
    return useQuery(["getProducts", { pageNumber, keyword }], getProducts, {
-      initialData,
       onSuccess: (products) => {
          dispatch(setProducts(products));
          // toast.success(`Get List Product Successfully`);

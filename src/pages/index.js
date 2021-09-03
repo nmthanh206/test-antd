@@ -5,32 +5,34 @@ import Loader from "@/components/Loader";
 import { useListProducts } from "@/hook/product/useListProducts";
 import ProductCarousel from "@/components/ProductCarousel";
 import { useEffect } from "react";
+
 // import dbConnect from "@/lib/dbConnect";
 // import Product2 from "@/models/productModel";
 
-const HomeScreen = ({ products = [] }) => {
+const HomeScreen = () => {
    const router = useRouter();
-   const keyword = router.query.keyword;
+
+   const keyword = router.query.keyword || "";
    let pageNumber = router.query.pageNumber || 1;
 
    if (pageNumber < 1) pageNumber = 1;
-   const { data, isLoading, isError, error } = useListProducts(
-      {
-         pageNumber,
-         keyword,
-      },
-      products
-   );
-   // useEffect(() => {
+   const { data, isLoading, isError, error } = useListProducts({
+      pageNumber,
+      keyword,
+   });
+   useEffect(() => {
+      if (typeof window !== "undefined") {
+         if (data?.page > data?.pages)
+            router.push(`/?keyword=${keyword}&pageNumber=${data?.pages}`);
+      }
+   }, []);
 
-   //    //    router.push(`/?keyword=${keyword}&pageNumber=${pageNumber}`);
-
-   if (isLoading || !data)
-      return (
-         <div className="-mt-36">
-            <Loader />
-         </div>
-      );
+   // if (isLoading || !data)
+   //    return (
+   //       <div className="-mt-36">
+   //          <Loader />
+   //       </div>
+   //    );
 
    if (isError)
       return (
@@ -38,25 +40,25 @@ const HomeScreen = ({ products = [] }) => {
             <Alert message={error.message} type="error" />
          </div>
       );
-
+   console.log("index", Boolean(keyword));
    return (
       <div className="">
          <Row>
             <Col span={24}>
-               {!keyword ? (
-                  <ProductCarousel />
-               ) : (
-                  <h1>
-                     Search results for '{keyword}' : {data.total} results
+               {Boolean(keyword) ? (
+                  <h1 className="m-0 mt-2 ml-5 text-3xl">
+                     Search results for '{keyword}' : {data?.total} results
                   </h1>
+               ) : (
+                  <ProductCarousel keyword={keyword} />
                )}
             </Col>
          </Row>
          <div className="px-5">
             <Row gutter={16}>
-               {(data.products || products).map((product) => (
+               {(data?.products || [1, 2, 3, 4, 5, 6, 7, 8]).map((product) => (
                   <Col
-                     key={product._id}
+                     key={product._id || product}
                      gutter={16}
                      sm={24}
                      md={12}
@@ -64,7 +66,7 @@ const HomeScreen = ({ products = [] }) => {
                      xl={6}
                      xs={24}
                   >
-                     <Product product={product} />
+                     <Product product={product} isLoading={isLoading} />
                   </Col>
                ))}
             </Row>
@@ -72,22 +74,24 @@ const HomeScreen = ({ products = [] }) => {
          <Row>
             <Col md={20} xs={24} offset={3}>
                <div className="flex justify-center items-center mt-6 mr-24">
-                  <Pagination
-                     defaultCurrent={1}
-                     responsive
-                     current={Number(pageNumber)}
-                     total={(data || products).total}
-                     pageSize={data?.pageSize || 8}
-                     // eslint-disable-next-line no-unused-vars
-                     // onChange={(page, pageSize) => router.push(`/page/${page}`)}
-                     onChange={(page, pageSize) =>
-                        router.push(`/?pageNumber=${page}`)
-                     }
-                     showQuickJumper
-                     showTotal={(total, range) =>
-                        `${range[0]}-${range[1]} of ${total} items`
-                     }
-                  />
+                  {!isLoading && (
+                     <Pagination
+                        defaultCurrent={1}
+                        responsive
+                        current={Number(pageNumber)}
+                        total={data.total}
+                        pageSize={data?.pageSize || 8}
+                        // onChange={(page, pageSize) => router.push(`/page/${page}`)}
+                        // eslint-disable-next-line no-unused-vars
+                        onChange={(page, pageSize) =>
+                           router.push(`/?pageNumber=${page}`)
+                        }
+                        showQuickJumper
+                        showTotal={(total, range) =>
+                           `${range[0]}-${range[1]} of ${total} items`
+                        }
+                     />
+                  )}
                </div>
             </Col>
          </Row>

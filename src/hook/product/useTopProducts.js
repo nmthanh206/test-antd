@@ -9,8 +9,8 @@ const listTopProducts = catchAsyn(async () => {
    return data;
 });
 
-export const useTopProducts = () => {
-   // console.log(Boolean(id));
+export const useTopProducts = (keyword) => {
+   console.log("haha", Boolean(keyword));
    return useQuery("listTopProducts", listTopProducts, {
       onSuccess: (products) => {
          // toast.success(`Get Product Successfully`);
@@ -22,5 +22,6 @@ export const useTopProducts = () => {
       refetchOnWindowFocus: false,
       refetchOnMount: true,
       retry: 1,
+      enabled: !Boolean(keyword),
    });
 };

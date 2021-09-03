@@ -1,4 +1,4 @@
-import asyncHandler from "express-async-handler";
+import { asyncHandler } from "@/utils/asyncHandler";
 import generateToken from "@/utils/generateToken";
 import User from "@/models/userModel";
 import Email from "@/utils/email";

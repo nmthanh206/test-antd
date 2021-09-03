@@ -5,10 +5,40 @@ import { SearchOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { Rate } from "antd";
 import Link from "next/link";
 import Image from "next/image";
-const Product = ({ product }) => {
+const Product = ({ product, isLoading }) => {
    const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);
    };
+
+   if (isLoading) {
+      return (
+         <div className="mt-7 w-[285px] h-[482px] border-2 border-solid animate-pulse border-gray-300/50">
+            <div className="w-full h-[227px] bg-gray-300/50"></div>
+            <div className=" p-6 w-full h-[200px] border-2 border-solid border-gray-300/50">
+               <div className=" min-h-[65px]">
+                  <div className="mb-4 w-full min-h-[22px] bg-gray-300/50"></div>
+                  <div className="w-full min-h-[22px] bg-gray-300/50"></div>
+               </div>
+               <div className="flex justify-between items-center">
+                  <div className="w-[65%] min-h-[20px]">
+                     <Rate allowHalf disabled defaultValue={0} />
+                  </div>
+                  <div className="flex-1 mt-1 min-h-[20px] bg-gray-300/50"></div>
+               </div>
+               <div className="mx-auto mt-7 w-[20%] min-h-[20px] bg-gray-300/50"></div>
+            </div>
+            <div className="flex">
+               <div className=" flex flex-1 justify-center items-center h-[52px]">
+                  <div className="w-7 h-7 rounded-[4px] bg-gray-300/50"></div>
+               </div>
+               <div className=" flex flex-1 justify-center items-center h-[52px]">
+                  {" "}
+                  <div className="w-7 h-7 rounded-[4px] bg-gray-300/50"></div>
+               </div>
+            </div>
+         </div>
+      );
+   }
    return (
       <div>
          <Card

@@ -1,4 +1,4 @@
-import asyncHandler from "express-async-handler";
+import { asyncHandler } from "@/utils/asyncHandler";
 import Order from "@/models/orderModel";
 
 // @desc    Create new order
