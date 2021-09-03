@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useMutationUpdateUserProfile } from "@/hook/user";
 import TableMyOrders from "@/components/TableMyOrders";
 import { useRouter } from "next/router";
+import { useMounted } from "@/hook/useMounted";
 const { Item } = Form;
 const layout = {
    labelCol: { span: 24 },
@@ -18,6 +19,8 @@ const ProfileScreen = () => {
    const [form] = Form.useForm();
    const router = useRouter();
    const user = useSelector((state) => state.userLogin.user);
+   const { hasMounted } = useMounted();
+   const userClient = hasMounted ? user : null;
    const { mutate: updateUserProfile, isLoading } =
       useMutationUpdateUserProfile();
    const handleSubmit = async ({ name, email, password, confirmPassword }) => {
@@ -43,7 +46,7 @@ const ProfileScreen = () => {
          }
       }
    }, [router, user]);
-   if (user)
+   if (userClient)
       return (
          <div className="mt-7">
             <Row gutter={32}>

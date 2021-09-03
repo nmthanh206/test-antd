@@ -171,19 +171,24 @@ const ProductScreen = () => {
                      </Form.Item>
                   </Form>
                </Col>
-               <Divider className=" m-0" />
-               <Col span={24}>
-                  <Button
-                     type="primary"
-                     block
-                     shape="round"
-                     className="h-full"
-                     onClick={addToCartHandler}
-                     disabled={product.countInStock < 1}
-                  >
-                     Add To Cart
-                  </Button>
-               </Col>
+
+               {!user?.isAdmin && (
+                  <>
+                     <Divider className=" m-0" />
+                     <Col span={24}>
+                        <Button
+                           type="primary"
+                           block
+                           shape="round"
+                           className="h-full"
+                           onClick={addToCartHandler}
+                           disabled={product.countInStock < 1}
+                        >
+                           Add To Cart
+                        </Button>
+                     </Col>
+                  </>
+               )}
             </Row>
          </Col>
          {/* REVIEW */}

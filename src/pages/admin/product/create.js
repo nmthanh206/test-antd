@@ -181,6 +181,7 @@ const ProductEditScreen = () => {
          </div>
       );
 
+   if (!infoAdmin || !infoAdmin.isAdmin) return null;
    return (
       <div>
          <h1 className="text-center">

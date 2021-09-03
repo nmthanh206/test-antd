@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Affix, Badge, Layout, Menu, Input } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -8,26 +8,26 @@ import {
    UserOutlined,
    LogoutOutlined,
    ShoppingCartOutlined,
-   FormOutlined,
-   ReconciliationOutlined,
-   TeamOutlined,
    ContactsOutlined,
 } from "@ant-design/icons";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/reducers/userReducer";
 import { resetCart } from "@/reducers/cartReducer";
+import { useMounted } from "@/hook/useMounted";
 const { Header } = Layout;
 const { SubMenu, Item } = Menu;
 const { Search } = Input;
+
 const Header2 = () => {
+   const { hasMounted } = useMounted();
    const router = useRouter();
    const user = useSelector((state) => state.userLogin.user);
    const cartItems = useSelector((state) => state.cart.cartItems);
    const numCart = cartItems.reduce((acc, item) => acc + item.qty, 0);
    const dispatch = useDispatch();
    const [current, setCurrent] = useState([]);
-
+   const userClient = hasMounted ? user : null;
    const logoutHandler = () => {
       setCurrent([]);
       dispatch(logout());
@@ -63,24 +63,22 @@ const Header2 = () => {
                      />
                   </div>
                </Item>
-
-               <Item
-                  key="CART"
-                  icon={
-                     <Badge count={numCart} offset={[0, -3]} size="small">
-                        <ShoppingCartOutlined />
-                     </Badge>
-                  }
-                  className="ml-auto"
-               >
-                  <Link href="/cart">CART</Link>
-               </Item>
-               {!user && (
-                  <Item key=" SIGN IN" icon={<UserOutlined />}>
-                     <Link href="/login"> SIGN IN</Link>
+               <div className="flex-grow"></div>
+               {!userClient?.isAdmin && (
+                  <Item
+                     key="CART"
+                     icon={
+                        <Badge count={numCart} offset={[0, -3]} size="small">
+                           <ShoppingCartOutlined />
+                        </Badge>
+                     }
+                     // className="ml-auto"
+                  >
+                     <Link href="/cart">CART</Link>
                   </Item>
                )}
-               {user && (
+
+               {userClient ? (
                   <SubMenu
                      icon={<UserOutlined />}
                      title={user?.name}
@@ -99,21 +97,11 @@ const Header2 = () => {
                         Logout
                      </Item>
                   </SubMenu>
+               ) : (
+                  <Item key=" SIGN IN" icon={<UserOutlined />}>
+                     <Link href="/login"> SIGN IN</Link>
+                  </Item>
                )}
-
-               {/* {user?.isAdmin && (
-                  <SubMenu icon={<UserOutlined />} title="ADMIN" key="admin">
-                     <Item key="Users" icon={<TeamOutlined />}>
-                        <Link href="/admin/userlist">Users</Link>
-                     </Item>
-                     <Item key="Products" icon={<FormOutlined />}>
-                        <Link href="/admin/productlist">Products</Link>
-                     </Item>
-                     <Item key="Orders" icon={<ReconciliationOutlined />}>
-                        <Link href="/admin/orderlist">Orders</Link>
-                     </Item>
-                  </SubMenu>
-               )} */}
             </Menu>
          </Header>
       </Affix>

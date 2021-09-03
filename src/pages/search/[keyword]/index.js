@@ -39,7 +39,7 @@ const HomeScreen = ({ products = null }) => {
                {!keyword ? (
                   <ProductCarousel />
                ) : (
-                  <h1>
+                  <h1 className="m-0 mt-2 ml-5 text-3xl">
                      Search results for '{keyword}' : {data.total} results
                   </h1>
                )}

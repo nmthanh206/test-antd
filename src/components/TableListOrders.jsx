@@ -15,6 +15,10 @@ const columns = [
       dataIndex: "name",
       // key: "_id",
       sorter: (a, b) => a.name.localeCompare(b.name),
+      render: (name) => {
+         if (name === "Unknown") return <Tag color="volcano">{name}</Tag>;
+         return name;
+      },
    },
    {
       title: "DATE",
@@ -100,7 +104,7 @@ const TableListOrders = ({ userInfo }) => {
    listOrders = listOrders.map((row) => ({
       ...row,
       key: row._id,
-      name: row.user.name,
+      name: row.user?.name || "Unknown",
    }));
    console.count("chay");
    return (
