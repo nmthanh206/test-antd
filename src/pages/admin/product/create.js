@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Input, Button, Form, InputNumber, Upload } from "antd";
 import { toast } from "react-toastify";
-import { UploadOutlined } from "@ant-design/icons";
+import { ConsoleSqlOutlined, UploadOutlined } from "@ant-design/icons";
 import ImgCrop from "antd-img-crop";
 
 import {
@@ -31,6 +31,7 @@ const ProductEditScreen = () => {
    const router = useRouter();
    const infoAdmin = useSelector((state) => state.userLogin.user);
    const [file, setFile] = useState(null); //cai nay de dispaly len man hinh cai nay de send len server
+
    const [form] = Form.useForm();
    const productId = router.query.id;
    // console.log(productId);
@@ -68,8 +69,10 @@ const ProductEditScreen = () => {
       let formData = null;
       if (file) {
          formData = new FormData();
-         formData.append("image", file);
+         formData.append("file", file);
+         console.log("vo");
       }
+      console.log(productId);
       const product = {
          name,
          price,
@@ -98,6 +101,7 @@ const ProductEditScreen = () => {
    };
 
    const beforeUpload = (file) => {
+      console.log("vo check");
       const isJpgOrPng =
          file.type === "image/jpeg" || file.type === "image/png";
       if (!isJpgOrPng) {
@@ -111,6 +115,8 @@ const ProductEditScreen = () => {
    };
    const getBase64 = (img, callback) => {
       //! convert hinh sau khi crop sang base 64 de hien thi trên img tag
+      console.log(img);
+      if (!img.type.startsWith("image")) return;
       const reader = new FileReader();
       reader.addEventListener("load", () => callback(reader.result));
       reader.readAsDataURL(img);
@@ -197,7 +203,12 @@ const ProductEditScreen = () => {
                className="uploadImage"
             >
                <Item {...layoutImage}>
-                  <ImgCrop rotate aspect={1.25} quality={0.4}>
+                  <ImgCrop
+                     rotate
+                     aspect={1.25}
+                     quality={0.4}
+                     beforeCrop={(img) => img.type.startsWith("image")}
+                  >
                      <Upload
                         // defaultFileList={defaultFileList}
                         fileList={fileList}

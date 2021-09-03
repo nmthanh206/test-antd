@@ -4,7 +4,7 @@ import { Card } from "antd";
 import { SearchOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { Rate } from "antd";
 import Link from "next/link";
-
+import Image from "next/image";
 const Product = ({ product }) => {
    const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);
@@ -20,9 +20,20 @@ const Product = ({ product }) => {
                      <img
                         alt={product.name}
                         src={product.image}
+                        // src="https://res.cloudinary.com/dujzi1wfz/image/upload/v1630656715/eockwnedun8ujxyqizmr.png"
                         className=" w-full"
                         // style={{ maxHeight: "230px" }}
                      />
+                     <div>
+                        {/* <Image
+                           alt={product.name}
+                           // src={product.image}
+                           src="https://res.cloudinary.com/dujzi1wfz/image/upload/v1630656715/eockwnedun8ujxyqizmr.png"
+                           // className=" w-full"
+                           layout="fill"
+                           width={280}
+                        /> */}
+                     </div>
                   </a>
                </Link>
             }

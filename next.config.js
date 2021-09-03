@@ -6,6 +6,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 module.exports = {
+   images: {
+      domains: ["res.cloudinary.com"],
+   },
    ...withBundleAnalyzer(),
    ...withLess({
       lessLoaderOptions: {

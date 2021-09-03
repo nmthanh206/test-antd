@@ -2,24 +2,17 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { catchAsyn } from "@/utils/catchAsync";
+import { getSignature } from "@/utils/getSignature";
 
 const createProduct = catchAsyn(async ({ infoAdmin, product, formData }) => {
-   let image = "/images/sample.jpg";
-   if (formData) {
-      const configImage = {
-         headers: {
-            "Content-Type": "multipart/form-data",
-         },
-      };
-      const { data: imagePath } = await axios.post(
-         "/api/upload",
-         formData,
-         configImage
-      );
-      image = imagePath;
-   }
+   const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
+   const { signature, timestamp } = await getSignature();
+   formData.append("signature", signature);
+   formData.append("timestamp", timestamp);
+   formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY);
 
-   const newProduct = { ...product, image };
+   const result = await axios.post(url, formData);
+   const newProduct = { ...product, image: result.data.public_id };
    const config = {
       headers: {
          Authorization: `Bearer ${infoAdmin.token}`,
@@ -27,6 +20,7 @@ const createProduct = catchAsyn(async ({ infoAdmin, product, formData }) => {
    };
 
    const { data } = await axios.post(`/api/products`, newProduct, config);
+
    return data;
 });
 

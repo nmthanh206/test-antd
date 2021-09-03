@@ -31,6 +31,7 @@ const ProductEditScreen = () => {
    const router = useRouter();
    const infoAdmin = useSelector((state) => state.userLogin.user);
    const [file, setFile] = useState(null); //cai nay de dispaly len man hinh cai nay de send len server
+   const [changed, setChanged] = useState(false);
    const [form] = Form.useForm();
    const productId = router.query.id;
    // console.log(productId);
@@ -68,8 +69,9 @@ const ProductEditScreen = () => {
       let formData = null;
       if (file) {
          formData = new FormData();
-         formData.append("image", file);
+         formData.append("file", file);
       }
+
       const product = {
          name,
          price,
@@ -88,6 +90,7 @@ const ProductEditScreen = () => {
                  image: productDetail.image,
               },
               formData,
+              changed,
            })
          : createProduct({ infoAdmin, product, formData });
    };
@@ -98,6 +101,7 @@ const ProductEditScreen = () => {
    };
 
    const beforeUpload = (file) => {
+      console.log("vo check");
       const isJpgOrPng =
          file.type === "image/jpeg" || file.type === "image/png";
       if (!isJpgOrPng) {
@@ -117,6 +121,7 @@ const ProductEditScreen = () => {
    };
    const customRequest = async (options) => {
       setFile(options.file);
+
       getBase64(options.file, (url) =>
          setFileList([
             {
@@ -196,7 +201,12 @@ const ProductEditScreen = () => {
                className="uploadImage"
             >
                <Item {...layoutImage}>
-                  <ImgCrop rotate aspect={1.25} quality={0.4}>
+                  <ImgCrop
+                     rotate
+                     aspect={1.25}
+                     quality={0.4}
+                     beforeCrop={(img) => img.type.startsWith("image")}
+                  >
                      <Upload
                         // defaultFileList={defaultFileList}
                         fileList={fileList}
@@ -212,6 +222,9 @@ const ProductEditScreen = () => {
                         beforeUpload={beforeUpload}
                         className="upload-list-inline"
                         showRemoveIcon={false}
+                        onChange={() => {
+                           if (!changed) setChanged(true);
+                        }}
                      >
                         <Button icon={<UploadOutlined />}>Upload</Button>
                      </Upload>

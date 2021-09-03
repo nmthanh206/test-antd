@@ -21,7 +21,7 @@ const { Content, Footer, Sider } = Layout;
 export default function Layout2({ children }) {
    const { hasMounted } = useMounted();
    const rounter = useRouter();
-   console.log(rounter.asPath);
+   // console.log(rounter.asPath);
    const user = useSelector((state) => state.userLogin.user);
    const userClient = hasMounted ? user : null;
 
