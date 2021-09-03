@@ -73,9 +73,7 @@ const HomeScreen = ({ products }) => {
                      total={(data || products).total}
                      pageSize={data?.pageSize || 8}
                      // eslint-disable-next-line no-unused-vars
-                     onChange={(page, pageSize) =>
-                        history.push(`/page/${page}`)
-                     }
+                     onChange={(page, pageSize) => router.push(`/page/${page}`)}
                      showQuickJumper
                      showTotal={(total, range) =>
                         `${range[0]}-${range[1]} of ${total} items`

@@ -12,7 +12,11 @@ const createProduct = catchAsyn(async ({ infoAdmin, product, formData }) => {
    formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_KEY);
 
    const result = await axios.post(url, formData);
-   const newProduct = { ...product, image: result.data.public_id };
+
+   const newProduct = {
+      ...product,
+      image: `${result.data.public_id}.${result.data.format}`,
+   };
    const config = {
       headers: {
          Authorization: `Bearer ${infoAdmin.token}`,

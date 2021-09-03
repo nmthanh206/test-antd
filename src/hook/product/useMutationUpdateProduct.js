@@ -10,10 +10,10 @@ const updateProduct = catchAsyn(
 
       if (changed) {
          const { data: success } = await axios.delete(
-            `/api/image/${updateProduct.image}`
+            `/api/image/${updateProduct.image.split(".")[0]}`
          );
          if (success.result !== "ok") {
-            throw new Error("Upload product failed");
+            throw new Error("Upload product failed,");
          }
          const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`;
          const { signature, timestamp } = await getSignature();

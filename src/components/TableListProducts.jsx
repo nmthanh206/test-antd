@@ -25,10 +25,11 @@ const TableListProducts = ({ userInfo }) => {
       setIsModalVisible(true);
    };
 
-   const handleOk = (id) => {
+   const handleOk = (id, image) => {
       deleteProduct({
          infoAdmin: userInfo,
          productId: id,
+         image,
       });
       setIsModalVisible(false);
    };
@@ -89,7 +90,9 @@ const TableListProducts = ({ userInfo }) => {
                      <Modal
                         title="Delete User"
                         visible={isModalVisible}
-                        onOk={() => handleOk(rowIndex._id)}
+                        onOk={() =>
+                           handleOk(rowIndex._id, rowIndex.image.split(".")[0])
+                        }
                         onCancel={handleCancel}
                         confirmLoading={isLoading}
                         maskStyle={{ background: "rgba(0, 0, 0, 0.2)" }}
