@@ -11,5 +11,5 @@ export const useNextQueryParams = () => {
       return params;
    }, [router.asPath]);
 
-   return { ...router, query: value };
+   return { ...router, query: { ...router.query, ...value } };
 };

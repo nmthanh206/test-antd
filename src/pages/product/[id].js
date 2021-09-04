@@ -31,6 +31,7 @@ const { Option } = Select;
 const ProductScreen = ({ productStatic }) => {
    // const ProductScreen = () => {
    const router = useRouter();
+
    const dispatch = useDispatch();
    const [form] = Form.useForm();
 
