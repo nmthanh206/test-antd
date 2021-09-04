@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
@@ -42,6 +42,7 @@ const ProductScreen = ({ productStatic }) => {
 
    const [textSubmit, setTextSubmit] = useState("Submit");
    const [rate, setRate] = useState(5);
+   const [show, setShow] = useState(true);
    // console.log("productStatic", productStatic);
    let {
       data: product,
@@ -85,6 +86,9 @@ const ProductScreen = ({ productStatic }) => {
            });
       form.setFieldsValue({ comment: "" });
    };
+   useEffect(() => {
+      if (user?.isAdmin) setShow(false);
+   }, [user]);
    const onFinishFailed = (errorInfo) => {
       toast.error(errorInfo.message);
       // eslint-disable-next-line no-console
@@ -191,23 +195,20 @@ const ProductScreen = ({ productStatic }) => {
                   </Form>
                </Col>
 
-               {!user?.isAdmin && (
-                  <>
-                     <Divider className=" m-0" />
-                     <Col span={24}>
-                        <Button
-                           type="primary"
-                           block
-                           shape="round"
-                           className="h-full"
-                           onClick={addToCartHandler}
-                           disabled={product.countInStock < 1}
-                        >
-                           Add To Cart
-                        </Button>
-                     </Col>
-                  </>
-               )}
+               <Col span={24} style={{ display: show ? "block" : "none" }}>
+                  <Divider className=" m-0" />
+
+                  <Button
+                     type="primary"
+                     block
+                     shape="round"
+                     className="h-full"
+                     onClick={addToCartHandler}
+                     disabled={product.countInStock < 1}
+                  >
+                     Add To Cart
+                  </Button>
+               </Col>
             </Row>
          </Col>
          {/* REVIEW */}
@@ -228,65 +229,64 @@ const ProductScreen = ({ productStatic }) => {
                   )
                ) : null}
 
-               {hasMounted &&
-                  (user ? (
-                     !user.isAdmin && (
-                        <>
-                           <h2 className="mt-4 uppercase">
-                              Write a Customer Review
-                           </h2>
-                           <div>
-                              <div className="mb-4">
-                                 <Rate
-                                    allowHalf
-                                    defaultValue={5}
-                                    value={rate}
-                                    onChange={(value) => setRate(value)}
-                                 />
-                              </div>
-                              <Form
-                                 onFinish={handleSubmit}
-                                 onFinishFailed={onFinishFailed}
-                                 form={form}
-                              >
-                                 <Form.Item
-                                    name="comment"
-                                    // label="Comment"
-                                    // labelCol={{ span: 24 }}
-                                    wrapperCol={{ span: 24 }}
-                                    className="comment"
-                                 >
-                                    <Input.TextArea
-                                       placeholder="Write your comments"
-                                       showCount
-                                       maxLength={500}
-                                       // style={{ minHeight: "100px" }}
-                                       // autoSize={{ minRows: 5, maxRows: 10 }}
-                                       className="comment"
-                                    />
-                                 </Form.Item>
-                                 <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    className="mb-4 ml-1"
-                                 >
-                                    {textSubmit}
-                                 </Button>
-                              </Form>
+               {user ? (
+                  show && (
+                     <>
+                        <h2 className="mt-4 uppercase">
+                           Write a Customer Review
+                        </h2>
+                        <div>
+                           <div className="mb-4">
+                              <Rate
+                                 allowHalf
+                                 defaultValue={5}
+                                 value={rate}
+                                 onChange={(value) => setRate(value)}
+                              />
                            </div>
-                        </>
-                     )
-                  ) : (
-                     <div className="mt-4">
-                        <Message>
-                           Please{" "}
-                           <Link href={`/login?redirect=product/${id}`}>
-                              sign in
-                           </Link>{" "}
-                           to write a review{" "}
-                        </Message>
-                     </div>
-                  ))}
+                           <Form
+                              onFinish={handleSubmit}
+                              onFinishFailed={onFinishFailed}
+                              form={form}
+                           >
+                              <Form.Item
+                                 name="comment"
+                                 // label="Comment"
+                                 // labelCol={{ span: 24 }}
+                                 wrapperCol={{ span: 24 }}
+                                 className="comment"
+                              >
+                                 <Input.TextArea
+                                    placeholder="Write your comments"
+                                    showCount
+                                    maxLength={500}
+                                    // style={{ minHeight: "100px" }}
+                                    // autoSize={{ minRows: 5, maxRows: 10 }}
+                                    className="comment"
+                                 />
+                              </Form.Item>
+                              <Button
+                                 type="primary"
+                                 htmlType="submit"
+                                 className="mb-4 ml-1"
+                              >
+                                 {textSubmit}
+                              </Button>
+                           </Form>
+                        </div>
+                     </>
+                  )
+               ) : (
+                  <div className="mt-4">
+                     <Message>
+                        Please{" "}
+                        <Link href={`/login?redirect=product/${id}`}>
+                           sign in
+                        </Link>{" "}
+                        to write a review{" "}
+                     </Message>
+                  </div>
+               )}
             </div>
          </Col>
       </Row>
