@@ -10,10 +10,10 @@ const getProductDetails = catchAsyn(async ({ queryKey }) => {
    return data;
 });
 
-// export const useProductDetails = (id, initialData) => {
-export const useProductDetails = (id) => {
+export const useProductDetails = (id, initialData) => {
+   // export const useProductDetails = (id) => {
    return useQuery(["getProductDetails", id], getProductDetails, {
-      // initialData,
+      initialData,
       onSuccess: (products) => {
          // toast.success(`Get ${products.name} Successfully`);
       },

@@ -39,6 +39,7 @@ const ProductScreen = ({ productStatic }) => {
 
    const [textSubmit, setTextSubmit] = useState("Submit");
    const [rate, setRate] = useState(5);
+   // console.log("productStatic", productStatic);
    let {
       data: product,
       isLoading,
@@ -86,14 +87,15 @@ const ProductScreen = ({ productStatic }) => {
       // eslint-disable-next-line no-console
       console.log("Failed:", errorInfo);
    };
-   if (
-      isLoading ||
-      isLoadingReview ||
-      !product ||
-      isLoadingUpdateReview ||
-      router.isFallback
-   )
-      return <Loader />;
+   // if (
+   //    isLoading ||
+   //    isLoadingReview ||
+   //    !product ||
+   //    isLoadingUpdateReview ||
+   //    router.isFallback
+   // )
+   //    return <Loader />;
+   if (router.isFallback) return <Loader />;
 
    if (isError) return <div>error.... {JSON.stringify(error, null, 2)}</div>;
    return (
@@ -210,7 +212,7 @@ const ProductScreen = ({ productStatic }) => {
          <Col md={12} xm={24} className="">
             <div className="px-3">
                <h2>Reviews</h2>
-               {product.reviews.length === 0 ? (
+               {product.reviews?.length === 0 ? (
                   <Message>No Reviews</Message>
                ) : (
                   <Review
@@ -301,7 +303,7 @@ export async function getStaticProps({ params }) {
    // console.log(product);
    return {
       props: {
-         product: JSON.parse(JSON.stringify(product)),
+         productStatic: JSON.parse(JSON.stringify(product)),
       },
       revalidate: 60,
    };
