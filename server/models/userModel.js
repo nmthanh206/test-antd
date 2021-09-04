@@ -55,5 +55,18 @@ userSchema.pre("save", async function (next) {
    const salt = await bcrypt.genSalt(10);
    this.password = await bcrypt.hash(this.password, salt);
 });
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+   if (this.passwordChangedAt) {
+      const changedTimestamp = parseInt(
+         this.passwordChangedAt.getTime() / 1000,
+         10
+      );
+
+      return JWTTimestamp < changedTimestamp;
+   }
+
+   // False means NOT changed
+   return false;
+};
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

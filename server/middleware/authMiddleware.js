@@ -14,8 +14,25 @@ const protect = asyncHandler(async (req, res, next) => {
 
          const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-         req.user = await User.findById(decoded.id).select("-password");
+         const currentUser = await User.findById(decoded.id).select(
+            "-password"
+         );
 
+         if (!currentUser) {
+            res.status(401);
+            return next(
+               new Error(
+                  "The user belonging to this token does no longer exist."
+               )
+            );
+         }
+         if (currentUser.changedPasswordAfter(decoded.iat)) {
+            res.status(401);
+            return next(
+               new Error("User recently changed password! Please log in again.")
+            );
+         }
+         req.user = currentUser;
          next();
       } catch (error) {
          console.error(error);

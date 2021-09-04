@@ -36,7 +36,8 @@ const ProductScreen = ({ productStatic }) => {
    const dispatch = useDispatch();
    const [form] = Form.useForm();
 
-   const user = useSelector((state) => state.userLogin.user);
+   const user2 = useSelector((state) => state.userLogin.user);
+   const user = hasMounted ? user2 : null;
    const { id } = router.query;
 
    const [textSubmit, setTextSubmit] = useState("Submit");
@@ -190,7 +191,7 @@ const ProductScreen = ({ productStatic }) => {
                   </Form>
                </Col>
 
-               {!user?.isAdmin && (
+               {user && !user.isAdmin && (
                   <>
                      <Divider className=" m-0" />
                      <Col span={24}>
