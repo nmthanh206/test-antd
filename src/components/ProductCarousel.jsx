@@ -47,6 +47,8 @@ const ProductCarousel = ({ productTopRated, isLoading }) => {
                         src={product.image}
                         alt={product.image}
                         className="cursor-pointer"
+                        width={300}
+                        height={250}
                      />
                   </div>
                </React.Fragment>

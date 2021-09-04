@@ -64,7 +64,8 @@ const LoginScreen = () => {
             form={form}
             onFinish={handleSubmit}
             onFinishFailed={onFinishFailed}
-            initialValues={{ email: "test@example.com", password: "123456" }}
+            // initialValues={{ email: "culi@example.com", password: "123456" }}
+            initialValues={{ email: "culi@example.com", password: "" }}
             onFieldsChange={onChangeHandler}
          >
             <Item

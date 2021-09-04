@@ -57,21 +57,23 @@ const Product = ({ product, isLoading }) => {
                         // style={{ maxHeight: "230px" }}
                      /> */}
 
-                     <Image
-                        alt={product.name}
-                        src={
-                           imgSrc.startsWith("/images")
-                              ? imgSrc
-                              : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${imgSrc}`
-                        }
-                        onError={() => {
-                           setImgSrc(
-                              `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${imgSrc}`
-                           );
-                        }}
-                        width={290}
-                        height={230}
-                     />
+                     <div className=" border-[0.5px] border-gray-200 border-solid">
+                        <Image
+                           alt={product.name}
+                           src={
+                              imgSrc.startsWith("/images")
+                                 ? imgSrc
+                                 : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${imgSrc}`
+                           }
+                           onError={() => {
+                              setImgSrc(
+                                 `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${imgSrc}`
+                              );
+                           }}
+                           width={290}
+                           height={230}
+                        />
+                     </div>
                   </a>
                </Link>
             }
@@ -79,13 +81,12 @@ const Product = ({ product, isLoading }) => {
                <ShoppingOutlined key="addCard" />,
                <Link href={`/product/${product._id}`} passHref key="detail">
                   <a>
-                     {" "}
                      <SearchOutlined />
                   </a>
                </Link>,
             ]}
             hoverable
-            className=" mt-7 border-4 border-gray-100" //sai marginTop thi tot hon bottom
+            className=" mt-7 border-4 border-gray-100 cardBody" //sai marginTop thi tot hon bottom
          >
             <h3 className="min-h-[65px] text-[1.3rem]">{product.name}</h3>
             <article className="flex justify-between items-center">
@@ -94,7 +95,9 @@ const Product = ({ product, isLoading }) => {
                </div>
                <div className="mt-1"> {`${product.numReviews} reviews`}</div>
             </article>
-            <h1 className="mt-3 text-center">$ {addDecimals(product.price)}</h1>
+            <h1 className="mt-3 text-[22px] text-center hover:text-gray-700 transition-colors duration-200">
+               $ {addDecimals(product.price)}
+            </h1>
          </Card>
       </div>
    );

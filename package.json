@@ -19,6 +19,7 @@
       "cloudinary": "^1.26.3",
       "cross-env": "^7.0.2",
       "dayjs": "1.8.28",
+      "dotenv": "^10.0.0",
       "esm": "^3.2.25",
       "express-async-handler": "^1.1.4",
       "html-to-text": "^8.0.0",

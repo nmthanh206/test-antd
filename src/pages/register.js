@@ -58,8 +58,8 @@ const RegisterScreen = () => {
             initialValues={{
                name: "test",
                email: "test@example.com",
-               password: "123456",
-               confirmPassword: "123456",
+               password: "",
+               confirmPassword: "",
             }}
             onFieldsChange={onChangeHandler}
          >
