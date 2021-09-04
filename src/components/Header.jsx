@@ -15,13 +15,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/reducers/userReducer";
 import { resetCart } from "@/reducers/cartReducer";
 import { useMounted } from "@/hook/useMounted";
+import { useNextQueryParams } from "@/hook/useNextQueryParams";
 const { Header } = Layout;
 const { SubMenu, Item } = Menu;
 const { Search } = Input;
 
 const Header2 = () => {
    const { hasMounted } = useMounted();
-   const router = useRouter();
+   const router = useNextQueryParams();
+   // const router = useRouter();
    const user = useSelector((state) => state.userLogin.user);
    const cartItems = useSelector((state) => state.cart.cartItems);
    const numCart = cartItems.reduce((acc, item) => acc + item.qty, 0);
@@ -36,8 +38,8 @@ const Header2 = () => {
    };
 
    // const onSearch = (keyword) => router.push(`/search/${keyword}`);
-   // const onSearch = (keyword) => router.push(`/?keyword=${keyword}`);
-   const onSearch = (keyword) => router.push(`/search/${keyword}`);
+   const onSearch = (keyword) => router.push(`/?keyword=${keyword}`);
+   // const onSearch = (keyword) => router.push(`/search/${keyword}`);
 
    return (
       <Affix className="z-40">

@@ -5,13 +5,14 @@ import { useListProducts } from "@/hook/product/useListProducts";
 import ProductCarousel from "@/components/ProductCarousel";
 import { useEffect } from "react";
 import { useTopProducts } from "@/hook/product";
+import { useNextQueryParams } from "@/hook/useNextQueryParams";
 
 // import dbConnect from "@/lib/dbConnect";
 // import Product2 from "@/models/productModel";
 
 const HomeScreen = () => {
-   const router = useRouter();
-
+   // const router = useRouter();
+   const router = useNextQueryParams();
    const keyword = router.query.keyword || "";
    let pageNumber = router.query.pageNumber || 1;
 
@@ -26,11 +27,11 @@ const HomeScreen = () => {
 
    useEffect(() => {
       if (typeof window !== "undefined") {
-         if (data?.page > data?.pages)
+         if (router.isReady && data?.page > data?.pages)
             router.push(`/?keyword=${keyword}&pageNumber=${data?.pages}`);
          // setEnabled(true);
       }
-   }, []);
+   }, [data?.page, data?.pages, keyword, router]);
 
    // if (isLoading || !data)
    //    return (
