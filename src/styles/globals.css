@@ -96,3 +96,15 @@ h4 {
 .cardBody .ant-card-body {
    padding-bottom: 2px;
 }
+.js-image-zoom__zoomed-image {
+   z-index: 100;
+   margin: 2px;
+   transform: translate(220%, 120%) scale(3.3) !important;
+   border: 0.5px solid #1a94ff !important;
+}
+.js-image-zoom__zoomed-area {
+   border: 0.5px solid black !important;
+}
+.borderDetails > div {
+   border: 1px solid rgb(231, 231, 231);
+}

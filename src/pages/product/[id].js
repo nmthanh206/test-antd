@@ -16,6 +16,7 @@ import {
 } from "antd";
 // import Image from "next/link";
 import { useProductDetails } from "@/hook/product";
+import ReactImageZoom from "react-image-zoom";
 import {
    useMutationCreatetReview,
    useMutationUpdatetReview,
@@ -108,8 +109,8 @@ const ProductScreen = ({ productStatic }) => {
    return (
       <Row gutter={[20, 0]} className="mt-4">
          {/* IMAGE */}
-         <Col md={12} xs={24} className="">
-            <Image
+         <Col md={12} xs={24} className="borderDetails">
+            {/* <Image
                width="98%"
                height="auto"
                // layout="fill"
@@ -120,6 +121,19 @@ const ProductScreen = ({ productStatic }) => {
                }
                alt={product.image}
                className="cursor-pointer"
+            /> */}
+
+            <ReactImageZoom
+               img={
+                  product.image.startsWith("/images")
+                     ? product.image
+                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
+               }
+               alt={product.image}
+               width={590}
+               scale={0.3}
+
+               // offset={{ vertical: 150, horizontal: 370 }}
             />
          </Col>
          {/* DETAIL */}

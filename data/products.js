@@ -23,7 +23,7 @@ const products = [
       numReviews: 0,
    },
    {
-      name: "Moto E | Unlocked | Made for US by Motorola",
+      name: "Moto E | Unlocked | Made for US",
       image: "/images/2.jpg",
       description:
          "Unlocked for the freedom to choose your carrier. Compatible with AT&T, Sprint, T-Mobile, and Verizon networks. Sim card not included. Customers may need to contact Sprint for activation on Sprint’s network 13 MP dual camera system. Get creative and get your best results, whether shooting beautiful close-ups or swapping out backgrounds.",
@@ -60,7 +60,7 @@ const products = [
       numReviews: 0,
    },
    {
-      name: "Motorola Standard HDMI Cable for Motorola DROID X",
+      name: "Motorola Standard HDMI Cable",
       image: "/images/5.jpg",
       description: `One simple cable that connects your DROID X by MOTOROLA to your HDTV.
          Dock your phone into the Multimedia Station for DROID X by MOTOROLA with HDMI technology (multimedia station sold separately)`,
@@ -72,7 +72,7 @@ const products = [
       numReviews: 0,
    },
    {
-      name: "Acer Aspire 5 A515-46-R14K Slim Laptop ",
+      name: "Acer Aspire 5 A515-46-R14K Slim Laptop",
       image: "/images/7.jpg",
       description: `Powerful Productivity: AMD Ryzen 3 3350U delivers desktop-class performance and amazing battery life in a slim notebook. With Precision Boost, get up to 3.5GHz for your high-demand applications
       Maximized Visuals: See even more on the stunning 15.6" Full HD display with 82.58% screen-to-body, 16:9 aspect ratio and narrow bezels`,
