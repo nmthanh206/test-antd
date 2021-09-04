@@ -43,7 +43,8 @@ export default function Layout2({ children }) {
                   <Sider
                      // className=" shadow-lg site-layout-background"
                      // eslint-disable-next-line tailwindcss/no-contradicting-classname
-                     className=" bg-[#97cdfc] border-[.5px] border-blue-300 border-solid shadow-lg"
+                     // className=" bg-[#97cdfc] border-[.5px] border-blue-300 border-solid shadow-lg"
+                     className=" bg-[#ffffff] border-[.5px] shadow-lg"
                      width={200}
                      // collapsed
                   >

@@ -47,7 +47,7 @@ const Header2 = () => {
    };
 
    return (
-      <Affix className="z-40">
+      <Affix className=" z-40">
          <Header>
             <Menu
                selectedKeys={[current]}
@@ -61,7 +61,7 @@ const Header2 = () => {
                {/* <Item key="aaa" className="flex-grow"></Item> */}
                <Item
                   key="SEARCH"
-                  className=" mx-auto hover:!bg-transparent cursor-default"
+                  className=" ml-[253px] hover:!bg-transparent cursor-default"
                >
                   <div className="flex justify-center items-center w-full h-16">
                      <Search
@@ -76,13 +76,13 @@ const Header2 = () => {
                   </div>
                </Item>
 
-               {/* <div className="flex-grow" key="bbb"></div> */}
+               <div className="flex-grow" key="bbb"></div>
                {!userClient?.isAdmin && (
                   <Item
                      key="CART"
                      icon={
                         <Badge count={numCart} offset={[0, -3]} size="small">
-                           <ShoppingCartOutlined />
+                           <ShoppingCartOutlined className=" text-gray-100" />
                         </Badge>
                      }
                      // className="ml-auto"
