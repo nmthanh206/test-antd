@@ -306,7 +306,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
    await dbConnect();
 
-   const product = await productModel.findById(params.id).select("-reviews");
+   const product = await productModel.findById(params.id);
    // console.log(product);
    return {
       props: {
