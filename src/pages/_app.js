@@ -3,6 +3,7 @@ import "antd/dist/antd.less";
 import "@/styles/tailwind.css";
 import "@/styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
+// import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { store } from "../store";

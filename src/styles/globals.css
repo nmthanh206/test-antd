@@ -13,6 +13,8 @@ h4 {
    visibility: visible;
    opacity: 1;
 }
+/* -------------------- */
+/* SPIN ANTD */
 .spin span {
    font-size: 100px !important;
 }
@@ -21,6 +23,8 @@ h4 {
    height: 30px !important;
 }
 
+/* -------------------- */
+/* CAROUNSEL ANTD */
 .colorCarousel {
    height: 330px;
 }
@@ -89,13 +93,20 @@ h4 {
    width: 40px;
    color: wheat;
 }
+/* -------------------- */
+/* COMMENT ANTD */
 .comment textarea {
    min-height: 100px;
    border-radius: 5px;
 }
+/* -------------------- */
+/* CARD ANTD */
 .cardBody .ant-card-body {
    padding-bottom: 2px;
 }
+/* -------------------- */
+/* IMAGE ZOOM */
+
 .js-image-zoom__zoomed-image {
    z-index: 100;
    margin: 2px;

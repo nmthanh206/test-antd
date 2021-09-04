@@ -28,6 +28,7 @@ import { addToCart } from "@/reducers/cartReducer";
 import productModel from "@/models/productModel";
 import dbConnect from "@/lib/dbConnect";
 import { useMounted } from "@/hook/useMounted";
+// import InnerImageZoom from "react-inner-image-zoom";
 
 const { Option } = Select;
 const ProductScreen = ({ productStatic }) => {
@@ -132,9 +133,23 @@ const ProductScreen = ({ productStatic }) => {
                alt={product.image}
                width={590}
                scale={0.3}
-
                // offset={{ vertical: 150, horizontal: 370 }}
             />
+            {/* <InnerImageZoom
+               zoomType="hover"
+               zoomScale={3}
+               width={590}
+               src={
+                  product.image.startsWith("/images")
+                     ? product.image
+                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
+               }
+               zoomSrc={
+                  product.image.startsWith("/images")
+                     ? product.image
+                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
+               }
+            /> */}
          </Col>
          {/* DETAIL */}
          <Col md={6} xm={24} className=" text-gray-600">
@@ -208,10 +223,11 @@ const ProductScreen = ({ productStatic }) => {
                      </Form.Item>
                   </Form>
                </Col>
-
+               <Divider
+                  className=" m-0"
+                  style={{ display: show ? "block" : "none" }}
+               />
                <Col span={24} style={{ display: show ? "block" : "none" }}>
-                  <Divider className=" m-0" />
-
                   <Button
                      type="primary"
                      block
