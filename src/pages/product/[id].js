@@ -215,11 +215,11 @@ const ProductScreen = ({ productStatic }) => {
             <div className="px-3">
                <h2>Reviews</h2>
                {hasMounted ? (
-                  product.reviews.length === 0 ? (
+                  product?.reviews?.length === 0 ? (
                      <Message>No Reviews</Message>
                   ) : (
                      <Review
-                        reviews={product.reviews}
+                        reviews={product.reviews || []}
                         form={form}
                         setTextSubmit={setTextSubmit}
                         setRate={setRate}
