@@ -191,7 +191,7 @@ const ProductScreen = ({ productStatic }) => {
                   </Form>
                </Col>
 
-               {user && !user.isAdmin && (
+               {!user?.isAdmin && (
                   <>
                      <Divider className=" m-0" />
                      <Col span={24}>
@@ -277,13 +277,15 @@ const ProductScreen = ({ productStatic }) => {
                         </>
                      )
                   ) : (
-                     <Message>
-                        Please{" "}
-                        <Link href={`/login?redirect=product/${id}`}>
-                           sign in
-                        </Link>{" "}
-                        to write a review{" "}
-                     </Message>
+                     <div className="mt-4">
+                        <Message>
+                           Please{" "}
+                           <Link href={`/login?redirect=product/${id}`}>
+                              sign in
+                           </Link>{" "}
+                           to write a review{" "}
+                        </Message>
+                     </div>
                   ))}
             </div>
          </Col>

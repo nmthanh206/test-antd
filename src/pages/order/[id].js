@@ -224,11 +224,15 @@ const OrderScreen = () => {
                      </div>
                   </div>
                   <div
-                     className=" h-6"
-                     onClick={() => {
-                        message.info("sb-m1jwt6953860@personal.example.com");
-                     }}
-                  ></div>
+                     className=" mt-3 text-gray-300"
+                     // onClick={() => {
+                     //    message.info("sb-m1jwt6953860@personal.example.com");
+                     // }}
+                  >
+                     <h1 className="text-center">Account test</h1>
+                     <p>sb-m1jwt6953860@personal.example.com</p>
+                     <p>123456789</p>
+                  </div>
                </Col>
             </Row>
          </Col>
