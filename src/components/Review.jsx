@@ -1,9 +1,13 @@
 import { Col, Rate, Row, List, Button } from "antd";
 import { EditTwoTone } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import { useMounted } from "@/hook/useMounted";
 
 const Review = ({ reviews, form, setTextSubmit, setRate }) => {
+   const { hasMounted } = useMounted();
    const userId = useSelector((state) => state.userLogin.user?._id);
+   // const userId = hasMounted ? userID : null;
+
    // console.log(userId);
    // console.log(reviews);
    return (
@@ -57,10 +61,11 @@ const Review = ({ reviews, form, setTextSubmit, setRate }) => {
                                     />
                                  </Col>
                                  {review.user === userId && (
-                                    <Col span={1} offset={3} className=" -mt-2">
+                                    <Col span={1} className=" -mt-3 ml-12">
                                        <Button
                                           type="ghost"
                                           shape="circle"
+                                          className="mr-2"
                                           icon={<EditTwoTone />}
                                           size={5}
                                           onClick={() => {

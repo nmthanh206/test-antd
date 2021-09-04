@@ -1,11 +1,11 @@
-import { useRouter } from "next/router";
 import { Row, Col, Pagination, Alert } from "antd";
 import Product from "@/components/Product";
 import { useListProducts } from "@/hook/product/useListProducts";
 import { useEffect } from "react";
+import { useNextQueryParams } from "@/hook/useNextQueryParams";
 
 const HomeScreen = () => {
-   const router = useRouter();
+   const router = useNextQueryParams();
 
    const keyword = router.query.keyword || "";
    let pageNumber = router.query.pageNumber || 1;
