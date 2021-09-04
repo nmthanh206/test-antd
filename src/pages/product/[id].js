@@ -26,12 +26,13 @@ import Review from "@/components/Review";
 import { addToCart } from "@/reducers/cartReducer";
 import productModel from "@/models/productModel";
 import dbConnect from "@/lib/dbConnect";
+import { useMounted } from "@/hook/useMounted";
 
 const { Option } = Select;
 const ProductScreen = ({ productStatic }) => {
    // const ProductScreen = () => {
    const router = useRouter();
-
+   const { hasMounted } = useMounted();
    const dispatch = useDispatch();
    const [form] = Form.useForm();
 
@@ -213,16 +214,18 @@ const ProductScreen = ({ productStatic }) => {
          <Col md={12} xm={24} className="">
             <div className="px-3">
                <h2>Reviews</h2>
-               {product.reviews?.length === 0 ? (
-                  <Message>No Reviews</Message>
-               ) : (
-                  <Review
-                     reviews={product.reviews}
-                     form={form}
-                     setTextSubmit={setTextSubmit}
-                     setRate={setRate}
-                  />
-               )}
+               {hasMounted ? (
+                  product.reviews.length === 0 ? (
+                     <Message>No Reviews</Message>
+                  ) : (
+                     <Review
+                        reviews={product.reviews}
+                        form={form}
+                        setTextSubmit={setTextSubmit}
+                        setRate={setRate}
+                     />
+                  )
+               ) : null}
 
                {user ? (
                   !user.isAdmin && (

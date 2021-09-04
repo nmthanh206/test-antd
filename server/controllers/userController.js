@@ -186,7 +186,10 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
       //   "host"
       // )}/api/users/resetPassword/${resetToken}`;
 
-      const resetURL = `${req.headers.referer}resetPassword/${resetToken}`;
+      const resetURL = `${req.headers.referer.replace(
+         "forgotpassword",
+         "resetpassword"
+      )}/${resetToken}`;
       console.log(resetURL);
       await new Email(user, resetURL).sendPasswordReset();
       res.status(200).json({

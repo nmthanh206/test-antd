@@ -12,11 +12,11 @@ const layout = {
 const tailLayout = {
    wrapperCol: { offset: 8, span: 16 },
 };
-const ResetPasswordScreen = ({ match }) => {
+const ResetPasswordScreen = () => {
    const rounter = useRouter();
    const { token } = rounter.query;
    const [form] = Form.useForm();
-
+   console.log(token);
    const { mutate: resetPassowrd, isLoading } = useMutationResetPassword();
 
    const handleSubmit = async ({ password, confirmPassword }) => {
