@@ -42,7 +42,9 @@ const Header2 = () => {
 
    // const onSearch = (keyword) => router.push(`/search/${keyword}`);
    // const onSearch = (keyword) => router.push(`/?keyword=${keyword}`);
-   const onSearch = (keyword) => router.push(`/search/${keyword}`);
+   const onSearch = (keyword) => {
+      if (keyword) router.push(`/search/${keyword}`);
+   };
 
    return (
       <Affix className="z-40">
@@ -56,14 +58,16 @@ const Header2 = () => {
                <Item key="HOME" icon={<AppstoreOutlined />}>
                   <Link href="/">HOME</Link>
                </Item>
+               {/* <Item key="aaa" className="flex-grow"></Item> */}
                <Item
                   key="SEARCH"
-                  className=" hover:!bg-transparent cursor-default"
+                  className=" mx-auto hover:!bg-transparent cursor-default"
                >
                   <div className="flex justify-center items-center w-full h-16">
                      <Search
                         placeholder="Find product"
                         // allowClear  bug tu tim
+                        allowClear
                         enterButton="Search"
                         size="middle"
                         onSearch={onSearch}
@@ -71,7 +75,8 @@ const Header2 = () => {
                      />
                   </div>
                </Item>
-               <div className="flex-grow"></div>
+
+               {/* <div className="flex-grow" key="bbb"></div> */}
                {!userClient?.isAdmin && (
                   <Item
                      key="CART"

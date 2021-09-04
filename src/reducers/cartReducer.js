@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import Cookie from "js-cookie";
 let cartItemsFromStorage = [];
-if (typeof window !== "undefined") {
-   cartItemsFromStorage = localStorage.getItem("cartItems")
-      ? JSON.parse(localStorage.getItem("cartItems"))
-      : [];
-}
+cartItemsFromStorage = Cookie.get("cartItems")
+   ? JSON.parse(Cookie.get("cartItems"))
+   : [];
+// if (typeof window !== "undefined") {
+//    cartItemsFromStorage = localStorage.getItem("cartItems")
+//       ? JSON.parse(localStorage.getItem("cartItems"))
+//       : [];
+// }
 const cartReducer = createSlice({
    name: "cartReducer",
    initialState: {
@@ -27,7 +30,7 @@ const cartReducer = createSlice({
          if (!existItem) {
             state.cartItems.push(newItem);
          }
-         localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+         Cookie.set("cartItems", JSON.stringify(state.cartItems));
       },
       removeFromCart: (state, { payload: id }) => {
          state.cartItems = state.cartItems.filter((item) => {
@@ -50,7 +53,7 @@ const cartReducer = createSlice({
       },
       resetCart: (state, { payload }) => {
          state.cartItems = [];
-         localStorage.setItem("cartItems", []);
+         Cookie.set("cartItems", []);
       },
    },
 });

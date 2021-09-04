@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import Cookie from "js-cookie";
 let userInfoFromStorage = null;
-if (typeof window !== "undefined") {
-   userInfoFromStorage = localStorage.getItem("userInfo")
-      ? JSON.parse(localStorage.getItem("userInfo"))
-      : null;
-}
+userInfoFromStorage = Cookie.get("userInfo")
+   ? JSON.parse(Cookie.get("userInfo"))
+   : null;
+// if (typeof window !== "undefined") {
+//    userInfoFromStorage = localStorage.getItem("userInfo")
+//       ? JSON.parse(localStorage.getItem("userInfo"))
+//       : null;
+// }
 const userLoginReducer = createSlice({
    name: "userLoginReducer",
    initialState: {
@@ -14,12 +17,12 @@ const userLoginReducer = createSlice({
    reducers: {
       loginUser: (state, action) => {
          state.user = action.payload;
-         localStorage.setItem("userInfo", JSON.stringify(action.payload));
+         Cookie.set("userInfo", JSON.stringify(action.payload));
       },
       logout: (state, action) => {
          state.user = null;
-         localStorage.setItem("userInfo", null);
-         localStorage.setItem("cartItems", []);
+         Cookie.set("userInfo", null);
+         Cookie.set("cartItems", []);
       },
    },
 });

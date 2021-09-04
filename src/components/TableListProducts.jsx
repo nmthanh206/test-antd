@@ -8,8 +8,10 @@ import Link from "next/link";
 import { stringToColour } from "@/utils/generateColor";
 import Modal from "antd/lib/modal/Modal";
 import { useRouter } from "next/router";
+import { useNextQueryParams } from "@/hook/useNextQueryParams";
 const TableListProducts = ({ userInfo }) => {
-   const router = useRouter();
+   // const router = useRouter();
+   const router = useNextQueryParams();
    const { pageNumber = 1, keyword = "" } = router.query;
    const [isModalVisible, setIsModalVisible] = useState(false);
    const [nameDelete, setNameDelete] = useState("");

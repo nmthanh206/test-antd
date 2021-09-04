@@ -100,7 +100,7 @@ const TableMyOrders = ({ userInfo }) => {
             pagination={{
                defaultCurrent: 1,
                total: myOrders.length,
-               defaultPageSize: 10,
+               defaultPageSize: 8,
                pageSizeOptions: ["5", "10"],
                showSizeChanger: true,
             }}

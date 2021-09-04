@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { Row, Col, Button, PageHeader } from "antd";
 import ProductCart from "@/components/ProductCart";
@@ -7,6 +6,7 @@ import { useRouter } from "next/router";
 const CartScreen = () => {
    const router = useRouter();
    const cartItems = useSelector((state) => state.cart.cartItems);
+   const user = useSelector((state) => state.userLogin.user);
    if (cartItems.length === 0)
       return (
          <center className="mt-36 text-2xl text-gray-400">
@@ -21,7 +21,11 @@ const CartScreen = () => {
       .toFixed(2);
 
    const checkoutHandler = () => {
-      router.push("/login?redirect=shipping");
+      if (!user) {
+         router.push("/login?redirect=shipping");
+      } else {
+         router.push("/shipping");
+      }
    };
    return (
       <PageHeader
