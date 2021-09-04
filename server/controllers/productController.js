@@ -7,7 +7,6 @@ import Product from "server/models/productModel";
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-   // const pageSize = 10;
    // console.log(req.headers.referer);
    // await dbConnect();
    const pageSize = Number(process.env.PAGE_SIZE) || 8;
