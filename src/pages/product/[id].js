@@ -11,12 +11,11 @@ import {
    Select,
    Input,
    Form,
-   Image,
+   // Image,
    Divider,
 } from "antd";
 // import Image from "next/link";
 import { useProductDetails } from "@/hook/product";
-
 import {
    useMutationCreatetReview,
    useMutationUpdatetReview,
@@ -25,15 +24,14 @@ import Loader from "@/components/Loader";
 import Message from "@/components/Message";
 import Review from "@/components/Review";
 import { addToCart } from "@/reducers/cartReducer";
-// import productModel from "@/models/productModel";
-// import dbConnect from "@/lib/dbConnect";
+import productModel from "@/models/productModel";
+import dbConnect from "@/lib/dbConnect";
 import { useMounted } from "@/hook/useMounted";
 import ReactImageZoom from "@/components/ReactImageZoom";
-// import InnerImageZoom from "react-inner-image-zoom";
 
 const { Option } = Select;
-// const ProductScreen = ({ productStatic }) => {
-const ProductScreen = () => {
+const ProductScreen = ({ productStatic }) => {
+   // const ProductScreen = () => {
    const router = useRouter();
    const { hasMounted } = useMounted();
    const dispatch = useDispatch();
@@ -46,17 +44,17 @@ const ProductScreen = () => {
    const [textSubmit, setTextSubmit] = useState("Submit");
    const [rate, setRate] = useState(5);
    const [show, setShow] = useState(true);
-   // console.log("productStatic", productStatic);
-   // let {
-   //    data: product,
-   //    isLoading,
-   //    isError,
-   //    error,
-   // } = useProductDetails(id, productStatic);
-   // if (!product) {
-   //    product = productStatic;
-   // }
-   let { data: product, isLoading, isError, error } = useProductDetails(id);
+   console.log("productStatic", productStatic);
+   let {
+      data: product,
+      isLoading,
+      isError,
+      error,
+   } = useProductDetails(id, productStatic);
+   if (!product) {
+      product = productStatic;
+   }
+   // let { data: product, isLoading, isError, error } = useProductDetails(id);
 
    const { mutate: createReview, isLoadingReview } =
       useMutationCreatetReview(id);
@@ -98,7 +96,8 @@ const ProductScreen = () => {
       console.log("Failed:", errorInfo);
    };
 
-   if (router.isFallback || isLoading || !product) return <Loader />;
+   // if (router.isFallback || isLoading || !product) return <Loader />;
+   if (router.isFallback) return <Loader />;
 
    if (isError) return <div>error.... {JSON.stringify(error, null, 2)}</div>;
 
@@ -289,26 +288,26 @@ const ProductScreen = () => {
 
 export default ProductScreen;
 
-// export async function getStaticPaths() {
-//    await dbConnect();
-//    const products = await productModel.find().select("_id");
+export async function getStaticPaths() {
+   await dbConnect();
+   const products = await productModel.find().select("_id");
 
-//    const paths = products.map((product) => ({
-//       params: { id: product._id.toString() },
-//    }));
+   const paths = products.map((product) => ({
+      params: { id: product._id.toString() },
+   }));
 
-//    return { paths, fallback: true };
-// }
+   return { paths, fallback: true };
+}
 
-// export async function getStaticProps({ params }) {
-//    await dbConnect();
+export async function getStaticProps({ params }) {
+   await dbConnect();
 
-//    const product = await productModel.findById(params.id);
-//    // console.log(product);
-//    return {
-//       props: {
-//          productStatic: JSON.parse(JSON.stringify(product)),
-//       },
-//       revalidate: 60,
-//    };
-// }
+   const product = await productModel.findById(params.id);
+   // console.log(product);
+   return {
+      props: {
+         productStatic: JSON.parse(JSON.stringify(product)),
+      },
+      revalidate: 60,
+   };
+}
