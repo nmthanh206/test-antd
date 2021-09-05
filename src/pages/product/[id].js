@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,7 +16,7 @@ import {
 } from "antd";
 // import Image from "next/link";
 import { useProductDetails } from "@/hook/product";
-import ReactImageZoom from "react-image-zoom";
+
 import {
    useMutationCreatetReview,
    useMutationUpdatetReview,
@@ -28,11 +28,13 @@ import { addToCart } from "@/reducers/cartReducer";
 import productModel from "@/models/productModel";
 import dbConnect from "@/lib/dbConnect";
 import { useMounted } from "@/hook/useMounted";
+import ReactImageZoom from "@/components/ReactImageZoom";
 // import InnerImageZoom from "react-inner-image-zoom";
 
 const { Option } = Select;
 const ProductScreen = ({ productStatic }) => {
    // const ProductScreen = () => {
+
    const router = useRouter();
    const { hasMounted } = useMounted();
    const dispatch = useDispatch();
@@ -96,17 +98,11 @@ const ProductScreen = ({ productStatic }) => {
       // eslint-disable-next-line no-console
       console.log("Failed:", errorInfo);
    };
-   // if (
-   //    isLoading ||
-   //    isLoadingReview ||
-   //    !product ||
-   //    isLoadingUpdateReview ||
-   //    router.isFallback
-   // )
-   //    return <Loader />;
+
    if (router.isFallback) return <Loader />;
 
    if (isError) return <div>error.... {JSON.stringify(error, null, 2)}</div>;
+
    return (
       <Row gutter={[20, 0]} className="mt-4">
          {/* IMAGE */}
@@ -123,33 +119,25 @@ const ProductScreen = ({ productStatic }) => {
                alt={product.image}
                className="cursor-pointer"
             /> */}
-
             <ReactImageZoom
-               img={
-                  product.image.startsWith("/images")
-                     ? product.image
-                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
-               }
-               alt={product.image}
-               width={590}
-               scale={0.3}
-               // offset={{ vertical: 150, horizontal: 370 }}
-            />
-            {/* <InnerImageZoom
-               zoomType="hover"
-               zoomScale={3}
-               width={590}
                src={
                   product.image.startsWith("/images")
                      ? product.image
                      : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
                }
-               zoomSrc={
-                  product.image.startsWith("/images")
-                     ? product.image
-                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
-               }
-            /> */}
+               alt={product.image}
+            />
+            {/* <div ref={refContainer}>
+               <ReactImageZoom
+                  img={
+                     product.image.startsWith("/images")
+                        ? product.image
+                        : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
+                  }
+                  alt={product.image}
+                  scale={0.3}
+               />
+            </div> */}
          </Col>
          {/* DETAIL */}
          <Col md={6} xm={24} className=" text-gray-600">
@@ -347,4 +335,21 @@ export async function getStaticProps({ params }) {
       },
       revalidate: 60,
    };
+}
+{
+   /* <InnerImageZoom
+               zoomType="hover"
+               zoomScale={3}
+               width={590}
+               src={
+                  product.image.startsWith("/images")
+                     ? product.image
+                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
+               }
+               zoomSrc={
+                  product.image.startsWith("/images")
+                     ? product.image
+                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
+               }
+            /> */
 }
