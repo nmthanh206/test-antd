@@ -49,6 +49,8 @@
          },
       };
 
+      // var div = document.createElement("div");
+      // var lensDiv = document.createElement("div");
       var div = document.getElementsByClassName(
          "js-image-zoom__zoomed-image"
       )[0];
@@ -115,10 +117,16 @@
 
       function setZoomedImgSize(options, data) {
          if (options.scale) {
-            data.zoomedImg.element.style.width =
-               options.width * options.scale + "px";
-            data.zoomedImg.element.style.height =
-               options.height * options.scale + "px";
+            // data.zoomedImg.element.style.width =
+            //    options.width * options.scale + "px";
+            // data.zoomedImg.element.style.height =
+            //    options.height * options.scale + "px";
+            data.zoomedImg.element.style.width = options.outSrc
+               ? options.outSrc.width + "px"
+               : options.width + "px";
+            data.zoomedImg.element.style.height = options.outSrc
+               ? options.outSrc.height + "px"
+               : options.height + "px";
          } else if (options.zoomWidth) {
             data.zoomedImg.element.style.width = options.zoomWidth + "px";
             data.zoomedImg.element.style.height =
@@ -146,10 +154,17 @@
 
          data.sourceImg.naturalWidth = data.sourceImg.element.naturalWidth;
          data.sourceImg.naturalHeight = data.sourceImg.element.naturalHeight;
+         // data.zoomedImg.element.style.backgroundSize =
+         //    data.sourceImg.naturalWidth +
+         //    "px " +
+         //    data.sourceImg.naturalHeight +
+         //    "px";
+
+         var rate = data.sourceImg.naturalWidth / data.sourceImg.naturalHeight;
          data.zoomedImg.element.style.backgroundSize =
-            data.sourceImg.naturalWidth +
+            data.sourceImg.naturalWidth * 1.4 +
             "px " +
-            data.sourceImg.naturalHeight +
+            (data.sourceImg.naturalWidth * 1.4) / rate +
             "px";
 
          if (options.zoomStyle) {
@@ -230,14 +245,16 @@
             ? options.height + "px"
             : "auto";
 
-         data.zoomLens.element = container.appendChild(lensDiv);
+         // data.zoomLens.element = container.appendChild(lensDiv);
+         data.zoomLens.element = lensDiv;
          data.zoomLens.element.style.display = "none";
-         data.zoomLens.element.classList.add("js-image-zoom__zoomed-area");
+         // data.zoomLens.element.classList.add("js-image-zoom__zoomed-area");
 
-         data.zoomedImg.element = data.zoomContainer.appendChild(div);
-         data.zoomedImg.element.classList.add("js-image-zoom__zoomed-image");
-         data.zoomedImg.element.style.backgroundImage =
-            "url('" + data.sourceImg.element.src + "')";
+         // data.zoomedImg.element = data.zoomContainer.appendChild(div);
+         data.zoomedImg.element = div;
+         // data.zoomedImg.element.classList.add("js-image-zoom__zoomed-image");
+         // data.zoomedImg.element.style.backgroundImage =
+         //    "url('" + data.sourceImg.element.src + "')";
          data.zoomedImg.element.style.backgroundRepeat = "no-repeat";
          data.zoomedImg.element.style.display = "none";
 

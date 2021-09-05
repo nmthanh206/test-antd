@@ -13,7 +13,12 @@ module.exports = {
 
       //    ...defaultColors,
       // },
-      extend: {},
+      extend: {
+         screens: {
+            "3xl": "1600px",
+            // => @media (min-width: 1536px) { ... }
+         },
+      },
    },
    variants: {
       extend: {},

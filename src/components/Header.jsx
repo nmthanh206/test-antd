@@ -53,15 +53,18 @@ const Header2 = () => {
                selectedKeys={[current]}
                mode="horizontal"
                theme="dark"
-               className="flex px-20"
+               className="flex px-20 3xl:px-[160px]"
             >
                <Item key="HOME" icon={<AppstoreOutlined />}>
                   <Link href="/">HOME</Link>
                </Item>
-               {/* <Item key="aaa" className="flex-grow"></Item> */}
+               {/* <Item
+                  key="WTF"
+                  className=" flex-grow hover:!bg-transparent cursor-auto"
+               ></Item> */}
                <Item
                   key="SEARCH"
-                  className=" ml-[253px] hover:!bg-transparent cursor-default"
+                  className=" mx-auto hover:!bg-transparent cursor-default"
                >
                   <div className="flex justify-center items-center w-full h-16">
                      <Search
@@ -76,7 +79,7 @@ const Header2 = () => {
                   </div>
                </Item>
 
-               <div className="flex-grow" key="bbb"></div>
+               {/* <div className="flex-grow" key="SAOTRUNG"></div> */}
                {!userClient?.isAdmin && (
                   <Item
                      key="CART"

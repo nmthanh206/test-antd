@@ -25,16 +25,15 @@ import Loader from "@/components/Loader";
 import Message from "@/components/Message";
 import Review from "@/components/Review";
 import { addToCart } from "@/reducers/cartReducer";
-import productModel from "@/models/productModel";
-import dbConnect from "@/lib/dbConnect";
+// import productModel from "@/models/productModel";
+// import dbConnect from "@/lib/dbConnect";
 import { useMounted } from "@/hook/useMounted";
 import ReactImageZoom from "@/components/ReactImageZoom";
 // import InnerImageZoom from "react-inner-image-zoom";
 
 const { Option } = Select;
-const ProductScreen = ({ productStatic }) => {
-   // const ProductScreen = () => {
-
+// const ProductScreen = ({ productStatic }) => {
+const ProductScreen = () => {
    const router = useRouter();
    const { hasMounted } = useMounted();
    const dispatch = useDispatch();
@@ -48,16 +47,16 @@ const ProductScreen = ({ productStatic }) => {
    const [rate, setRate] = useState(5);
    const [show, setShow] = useState(true);
    // console.log("productStatic", productStatic);
-   let {
-      data: product,
-      isLoading,
-      isError,
-      error,
-   } = useProductDetails(id, productStatic);
-   if (!product) {
-      product = productStatic;
-   }
-   // let { data: product, isLoading, isError, error } = useProductDetails(id);
+   // let {
+   //    data: product,
+   //    isLoading,
+   //    isError,
+   //    error,
+   // } = useProductDetails(id, productStatic);
+   // if (!product) {
+   //    product = productStatic;
+   // }
+   let { data: product, isLoading, isError, error } = useProductDetails(id);
 
    const { mutate: createReview, isLoadingReview } =
       useMutationCreatetReview(id);
@@ -99,7 +98,7 @@ const ProductScreen = ({ productStatic }) => {
       console.log("Failed:", errorInfo);
    };
 
-   if (router.isFallback) return <Loader />;
+   if (router.isFallback || isLoading || !product) return <Loader />;
 
    if (isError) return <div>error.... {JSON.stringify(error, null, 2)}</div>;
 
@@ -107,18 +106,6 @@ const ProductScreen = ({ productStatic }) => {
       <Row gutter={[20, 0]} className="mt-4">
          {/* IMAGE */}
          <Col md={12} xs={24} className="borderDetails">
-            {/* <Image
-               width="98%"
-               height="auto"
-               // layout="fill"
-               src={
-                  product.image.startsWith("/images")
-                     ? product.image
-                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
-               }
-               alt={product.image}
-               className="cursor-pointer"
-            /> */}
             <ReactImageZoom
                src={
                   product.image.startsWith("/images")
@@ -127,17 +114,6 @@ const ProductScreen = ({ productStatic }) => {
                }
                alt={product.image}
             />
-            {/* <div ref={refContainer}>
-               <ReactImageZoom
-                  img={
-                     product.image.startsWith("/images")
-                        ? product.image
-                        : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
-                  }
-                  alt={product.image}
-                  scale={0.3}
-               />
-            </div> */}
          </Col>
          {/* DETAIL */}
          <Col md={6} xm={24} className=" text-gray-600">
@@ -313,43 +289,26 @@ const ProductScreen = ({ productStatic }) => {
 
 export default ProductScreen;
 
-export async function getStaticPaths() {
-   await dbConnect();
-   const products = await productModel.find().select("_id");
+// export async function getStaticPaths() {
+//    await dbConnect();
+//    const products = await productModel.find().select("_id");
 
-   const paths = products.map((product) => ({
-      params: { id: product._id.toString() },
-   }));
+//    const paths = products.map((product) => ({
+//       params: { id: product._id.toString() },
+//    }));
 
-   return { paths, fallback: true };
-}
+//    return { paths, fallback: true };
+// }
 
-export async function getStaticProps({ params }) {
-   await dbConnect();
+// export async function getStaticProps({ params }) {
+//    await dbConnect();
 
-   const product = await productModel.findById(params.id);
-   // console.log(product);
-   return {
-      props: {
-         productStatic: JSON.parse(JSON.stringify(product)),
-      },
-      revalidate: 60,
-   };
-}
-{
-   /* <InnerImageZoom
-               zoomType="hover"
-               zoomScale={3}
-               width={590}
-               src={
-                  product.image.startsWith("/images")
-                     ? product.image
-                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
-               }
-               zoomSrc={
-                  product.image.startsWith("/images")
-                     ? product.image
-                     : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${product.image}`
-               }
-            /> */
-}
+//    const product = await productModel.findById(params.id);
+//    // console.log(product);
+//    return {
+//       props: {
+//          productStatic: JSON.parse(JSON.stringify(product)),
+//       },
+//       revalidate: 60,
+//    };
+// }

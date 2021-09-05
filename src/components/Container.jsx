@@ -21,7 +21,8 @@ const Container = ({ children }) => {
             // md={user && user.isAdmin ? 24 : 20}
             // offset={user && user.isAdmin ? 0 : 2}
             xs={24}
-            className="bg-white"
+            xxl={18}
+            className=" 3xl:!ml-[12.6%] bg-white"
          >
             {children}
          </Col>
