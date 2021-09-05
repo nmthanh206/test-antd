@@ -15,11 +15,12 @@ const HomeScreen = () => {
    const { data, isLoading, isError, error } = useListProducts({
       pageNumber,
       keyword,
+      isReady: router.isReady,
    });
 
    useEffect(() => {
       if (typeof window !== "undefined") {
-         if (pageNumber > data?.pages)
+         if (router.isReady && pageNumber > data?.pages && data.total !== 0)
             router.push(`/search/${keyword}?pageNumber=${data?.pages}`);
       }
    }, [data?.pages, keyword, pageNumber, router]);
@@ -30,7 +31,7 @@ const HomeScreen = () => {
             <Alert message={error.message} type="error" />
          </div>
       );
-
+   // if (!keyword) return null;
    return (
       <div>
          {/* {hasMounted && ( */}

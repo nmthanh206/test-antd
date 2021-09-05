@@ -61,7 +61,7 @@ const Product = ({ product, isLoading }) => {
                         <Image
                            alt={product.name}
                            src={
-                              imgSrc.startsWith("/images")
+                              imgSrc?.startsWith("/images")
                                  ? imgSrc
                                  : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1630656715/${imgSrc}`
                            }

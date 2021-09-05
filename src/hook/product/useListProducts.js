@@ -14,7 +14,7 @@ const getProducts = catchAsyn(async ({ queryKey }) => {
    return data;
 });
 
-export const useListProducts = ({ pageNumber, keyword }) => {
+export const useListProducts = ({ pageNumber, keyword, isReady = true }) => {
    const dispatch = useDispatch();
    return useQuery(["getProducts", { pageNumber, keyword }], getProducts, {
       onSuccess: (products) => {
@@ -28,5 +28,6 @@ export const useListProducts = ({ pageNumber, keyword }) => {
       refetchOnWindowFocus: false,
       refetchOnMount: true,
       retry: 1,
+      enabled: Boolean(isReady),
    });
 };
