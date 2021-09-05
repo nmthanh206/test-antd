@@ -44,7 +44,7 @@ const ProductScreen = ({ productStatic }) => {
    const [textSubmit, setTextSubmit] = useState("Submit");
    const [rate, setRate] = useState(5);
    const [show, setShow] = useState(true);
-   console.log("productStatic", productStatic);
+   // console.log("productStatic", productStatic);
    let {
       data: product,
       isLoading,
