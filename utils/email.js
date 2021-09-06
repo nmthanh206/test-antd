@@ -25,7 +25,10 @@ export default class Email {
 
    // Send the actual email
    async send(template, subject) {
-      const html = ` <h5>account Name:${this.firstName}</h5> <h5>Click this link to reset your password <a>${this.url}</a></h5> <h5>${subject}</h5>`;
+      const html = ` <h5>Account Name:${this.firstName}</h5> 
+      <h5>Click this link to reset your password </h5>
+      <a  href=${this.url} target="_blank"> Click this link to reset your password</a> 
+      <h5>${subject}</h5>`;
       // const html = ` <h1>${this.url}</h1>`;
       // const html = ` 123213`;
 

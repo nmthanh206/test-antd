@@ -16,7 +16,7 @@ const ResetPasswordScreen = () => {
    const rounter = useRouter();
    const { token } = rounter.query;
    const [form] = Form.useForm();
-   console.log(token);
+   // console.log(token);
    const { mutate: resetPassowrd, isLoading } = useMutationResetPassword();
 
    const handleSubmit = async ({ password, confirmPassword }) => {
