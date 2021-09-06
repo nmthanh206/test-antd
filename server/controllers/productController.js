@@ -3,6 +3,14 @@
 import { asyncHandler } from "@/utils/asyncHandler";
 import Product from "server/models/productModel";
 
+const getNameProduct = asyncHandler(async (req, res) => {
+   const names = await Product.find().select("name");
+
+   res.json({
+      names,
+   });
+});
+
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public
@@ -253,4 +261,5 @@ export {
    createProductReview,
    getTopProducts,
    updateProductReview,
+   getNameProduct,
 };

@@ -156,3 +156,6 @@ h4 {
    width: 530px;
    height: 530px;
 }
+.btn-search .anticon {
+   margin: 0;
+}

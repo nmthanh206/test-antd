@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Affix, Badge, Layout, Menu, Input } from "antd";
+import { Affix, Badge, Layout, Menu, AutoComplete, Button } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 import {
    AppstoreOutlined,
@@ -9,20 +10,25 @@ import {
    LogoutOutlined,
    ShoppingCartOutlined,
    ContactsOutlined,
+   SearchOutlined,
 } from "@ant-design/icons";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/reducers/userReducer";
 import { resetCart } from "@/reducers/cartReducer";
 import { useMounted } from "@/hook/useMounted";
+import { useListNameProducts } from "@/hook/product";
 // import { useNextQueryParams } from "@/hook/useNextQueryParams";
 const { Header } = Layout;
 const { SubMenu, Item } = Menu;
-const { Search } = Input;
-
+const { Option } = AutoComplete;
 const Header2 = () => {
    const { hasMounted } = useMounted();
    // const router = useNextQueryParams();
+   const [options, setOptions] = useState([]);
+   const [search, setSearch] = useState("");
+   const { data: listNames } = useListNameProducts(!hasMounted);
+   // const listNames = useSelector((state) => state.productList.listNameProduct);
    const router = useRouter();
    const user = useSelector((state) => state.userLogin.user);
    const userClient = hasMounted ? user : null;
@@ -39,12 +45,30 @@ const Header2 = () => {
       dispatch(resetCart());
       router.push("/login");
    };
+   const handleSearch = (value) => {
+      let result = listNames.names.filter((nameProduct) =>
+         nameProduct.name.toLowerCase().includes(value.toLowerCase())
+      );
+      result = result.map((pro) => pro.name);
 
+      setOptions(value ? result : []);
+   };
+
+   const onSelect = (keyword) => {
+      if (keyword) {
+         router.push(`/search/${keyword}`);
+      }
+   };
+
+   // const handleFocus = () => {
+
+   //    console.log(keywords);
+   // };
    // const onSearch = (keyword) => router.push(`/search/${keyword}`);
    // const onSearch = (keyword) => router.push(`/?keyword=${keyword}`);
-   const onSearch = (keyword) => {
-      if (keyword) router.push(`/search/${keyword}`);
-   };
+   // const onSearch = (keyword) => {
+   //    if (keyword) router.push(`/search/${keyword}`);
+   // };
 
    return (
       <Affix className=" z-40">
@@ -67,7 +91,7 @@ const Header2 = () => {
                   className=" mx-auto hover:!bg-transparent cursor-default"
                >
                   <div className="flex justify-center items-center w-full h-16">
-                     <Search
+                     {/* <Search
                         placeholder="Find product"
                         // allowClear  bug tu tim
                         allowClear
@@ -75,7 +99,43 @@ const Header2 = () => {
                         size="middle"
                         onSearch={onSearch}
                         className="w-96"
-                     />
+                     /> */}
+                     <div>
+                        <AutoComplete
+                           dropdownMatchSelectWidth={252}
+                           style={{ width: 400 }}
+                           onSelect={onSelect}
+                           onSearch={handleSearch}
+                           onChange={(data) => setSearch(data)}
+                           // onFocus={handleFocus}
+                           placeholder="Find product"
+                        >
+                           {options.map((nameProduct) => (
+                              <Option key={nameProduct} value={nameProduct}>
+                                 <div className="flex items-center mt-[0.5px]">
+                                    <Image
+                                       src="/images/search.png"
+                                       width={35}
+                                       height={35}
+                                       alt="search: "
+                                    />
+                                    {nameProduct}
+                                 </div>
+                              </Option>
+                           ))}
+                        </AutoComplete>
+
+                        <Button
+                           type="primary"
+                           onClick={() => {
+                              if (search) router.push(`/search/${search}`);
+                           }}
+                           icon={<SearchOutlined />}
+                           className="btn-search"
+                        >
+                           Search
+                        </Button>
+                     </div>
                   </div>
                </Item>
 
