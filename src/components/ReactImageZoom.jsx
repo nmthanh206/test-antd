@@ -119,7 +119,8 @@ const ReactImageZoom = ({ src, alt, srcOrigin }) => {
       // ${image.current.width * cx}px ${image.current.height * cy}px`;
       zoomImage.current.style.backgroundSize = `
       ${image.current.width * cx}px ${image.current.height * cy}px`;
-
+      zoomLens.current.style.display = "none";
+      zoomImage.current.style.display = "none";
       container.current.addEventListener("mousemove", moveLens);
       container.current.addEventListener("mouseenter", handleMouseEnter);
       container.current.addEventListener("mouseleave", handleMouseLeave);
