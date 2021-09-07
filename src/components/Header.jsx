@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Affix, Badge, Layout, Menu, AutoComplete, Button } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -18,20 +18,20 @@ import { logout } from "@/reducers/userReducer";
 import { resetCart } from "@/reducers/cartReducer";
 import { useMounted } from "@/hook/useMounted";
 import { useListNameProducts } from "@/hook/product";
-import { deleteSearch, setListSearch } from "@/reducers/productReducer";
+import { addListSearch, setListSearch } from "@/reducers/productReducer";
 // import { useNextQueryParams } from "@/hook/useNextQueryParams";
 const { Header } = Layout;
 const { SubMenu, Item } = Menu;
 const { Option } = AutoComplete;
 const Header2 = () => {
    const { hasMounted } = useMounted();
-   let stop = false;
+   // let stop = false;
+   const stop = useRef(false);
    // const router = useNextQueryParams();
    const [options, setOptions] = useState([]);
    const [search, setSearch] = useState("");
-   // const [open, setOpen] = useState(true);
+   const [open, setOpen] = useState(true);
    const { data: listNames } = useListNameProducts(!hasMounted);
-   // const listNames = useSelector((state) => state.productList.listNameProduct);
    const router = useRouter();
    const user = useSelector((state) => state.userLogin.user);
    const listSearch = useSelector((state) => state.productList.listSearch);
@@ -56,42 +56,36 @@ const Header2 = () => {
       result = result.map((pro) => pro.name);
       if (value) setOptions(result);
       else setOptions(listSearch);
-      // setOptions(value ? result : []);
    };
 
    const onSelect = (keyword) => {
-      if (keyword && !stop) {
-         // setOpen(false);
+      if (keyword && !stop.current) {
          router.push(`/search/${keyword}`);
       } else setSearch("");
-      stop = false;
+      stop.current = false;
    };
 
    const handleFocus = () => {
-      //  console.log(listSearch);
-      // const searchList = listSearch.map((search) => search.title);
-      // setOpen(true);
+      setOpen(true);
       setOptions(listSearch);
    };
    const handleClickSearch = () => {
-      if (!listSearch.includes(search))
-         dispatch(setListSearch([...listSearch, { title: search }]));
+      dispatch(addListSearch({ title: search }));
       if (search) router.push(`/search/${search}`);
    };
+   const handleChange = (data) => {
+      if (!open) setOpen(true);
+      setSearch(data);
+   };
    const handleDelete = (searchName) => {
+      stop.current = true;
       const listKeyword = listSearch.filter(
          (search) => search.title !== searchName
       );
-      setOptions(listKeyword);
-      // dispatch(deleteSearch(listKeyword));
-      dispatch(deleteSearch(searchName));
-      stop = true;
+      setOpen(false);
+      setOptions(listSearch);
+      dispatch(setListSearch(listKeyword));
    };
-   // const onSearch = (keyword) => router.push(`/search/${keyword}`);
-   // const onSearch = (keyword) => router.push(`/?keyword=${keyword}`);
-   // const onSearch = (keyword) => {
-   //    if (keyword) router.push(`/search/${keyword}`);
-   // };
 
    return (
       // <Affix className=" z-40">
@@ -114,27 +108,25 @@ const Header2 = () => {
                className=" mx-auto hover:!bg-transparent cursor-default"
             >
                <div className="flex justify-center items-center w-full h-16">
-                  {/* <Search
-                        placeholder="Find product"
-                        // allowClear  bug tu tim
-                        allowClear
-                        enterButton="Search"
-                        size="middle"
-                        onSearch={onSearch}
-                        className="w-96"
-                     /> */}
                   <div>
                      <AutoComplete
                         allowClear
-                        // open={open}
+                        open={open}
+                        onBlur={() => setOpen(false)}
+                        // notFoundContent="Not found"
                         dropdownMatchSelectWidth={252}
                         style={{ width: 400 }}
                         onSelect={onSelect}
                         onSearch={handleSearch}
-                        onChange={(data) => setSearch(data)}
+                        onChange={(data) => handleChange(data)}
                         onFocus={handleFocus}
                         placeholder="Find product"
                         value={search}
+                        onKeyDown={(event) => {
+                           if (event.key === "Enter") {
+                              onSelect(search);
+                           }
+                        }}
                      >
                         {options.map((nameProduct) => {
                            const searchName = nameProduct.title || nameProduct;
@@ -152,7 +144,9 @@ const Header2 = () => {
                                        height={35}
                                        alt="search: "
                                     />
-                                    {searchName}
+                                    <div className=" ml-3 w-[290px] truncate">
+                                       {searchName}
+                                    </div>
                                     {nameProduct.title && (
                                        <div
                                           className="ml-auto"

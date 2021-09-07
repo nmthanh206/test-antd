@@ -19,22 +19,18 @@ const productReducer = createSlice({
       },
       setListSearch: (state, action) => {
          state.listSearch = action.payload;
-         localStorage.setItem(
-            "search-keyword",
-            JSON.stringify(state.listSearch)
-         );
+         localStorage.setItem("search-keyword", JSON.stringify(action.payload));
       },
-      // deleteSearch: (state, action) => {
-      //    state.listSearch = action.payload;
-      //    localStorage.setItem(
-      //       "search-keyword",
-      //       JSON.stringify(state.listSearch)
-      //    );
-      // },
-      deleteSearch: (state, action) => {
-         state.listSearch = state.listSearch.filter(
-            (search) => search.title !== action.payload
-         );
+      addListSearch: (state, action) => {
+         const search = state.listSearch.map((keyword) => keyword.title);
+         if (!search.includes(action.payload.title))
+            state.listSearch = [...state.listSearch, action.payload];
+         else {
+            state.listSearch = state.listSearch.filter(
+               (keyword) => keyword.title !== action.payload.title
+            );
+            state.listSearch.unshift(action.payload);
+         }
          localStorage.setItem(
             "search-keyword",
             JSON.stringify(state.listSearch)
@@ -44,7 +40,11 @@ const productReducer = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setProducts, setListNameProducts, setListSearch, deleteSearch } =
-   productReducer.actions;
+export const {
+   setProducts,
+   setListNameProducts,
+   setListSearch,
+   addListSearch,
+} = productReducer.actions;
 
 export default productReducer.reducer;

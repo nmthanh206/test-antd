@@ -17,12 +17,15 @@ const userLoginReducer = createSlice({
    reducers: {
       loginUser: (state, action) => {
          state.user = action.payload;
-         Cookie.set("userInfo", JSON.stringify(action.payload));
+         Cookie.set("userInfo", JSON.stringify(action.payload), { expires: 2 });
       },
-      logout: (state, action) => {
+      logout: (state) => {
          state.user = null;
-         Cookie.set("userInfo", null);
-         Cookie.set("cartItems", []);
+         // Cookie.set("userInfo", null);
+         // Cookie.set("cartItems", []);
+         Cookie.remove("userInfo");
+         Cookie.remove("cartItems");
+         localStorage.removeItem("search-keyword");
       },
    },
 });
