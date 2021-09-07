@@ -18,19 +18,23 @@ import { logout } from "@/reducers/userReducer";
 import { resetCart } from "@/reducers/cartReducer";
 import { useMounted } from "@/hook/useMounted";
 import { useListNameProducts } from "@/hook/product";
+import { deleteSearch, setListSearch } from "@/reducers/productReducer";
 // import { useNextQueryParams } from "@/hook/useNextQueryParams";
 const { Header } = Layout;
 const { SubMenu, Item } = Menu;
 const { Option } = AutoComplete;
 const Header2 = () => {
    const { hasMounted } = useMounted();
+   let stop = false;
    // const router = useNextQueryParams();
    const [options, setOptions] = useState([]);
    const [search, setSearch] = useState("");
+   // const [open, setOpen] = useState(true);
    const { data: listNames } = useListNameProducts(!hasMounted);
    // const listNames = useSelector((state) => state.productList.listNameProduct);
    const router = useRouter();
    const user = useSelector((state) => state.userLogin.user);
+   const listSearch = useSelector((state) => state.productList.listSearch);
    const userClient = hasMounted ? user : null;
    // const cartItems = useSelector((state) => state.cart.cartItems);
    const cartItems2 = useSelector((state) => state.cart.cartItems);
@@ -50,20 +54,38 @@ const Header2 = () => {
          nameProduct.name.toLowerCase().includes(value.toLowerCase())
       );
       result = result.map((pro) => pro.name);
-
-      setOptions(value ? result : []);
+      if (value) setOptions(result);
+      else setOptions(listSearch);
+      // setOptions(value ? result : []);
    };
 
    const onSelect = (keyword) => {
-      if (keyword) {
+      if (keyword && !stop) {
+         // setOpen(false);
          router.push(`/search/${keyword}`);
-      }
+      } else setSearch("");
+      stop = false;
    };
 
-   // const handleFocus = () => {
-
-   //    console.log(keywords);
-   // };
+   const handleFocus = () => {
+      //  console.log(listSearch);
+      // const searchList = listSearch.map((search) => search.title);
+      // setOpen(true);
+      setOptions(listSearch);
+   };
+   const handleClickSearch = () => {
+      if (!listSearch.includes(search))
+         dispatch(setListSearch([...listSearch, { title: search }]));
+      if (search) router.push(`/search/${search}`);
+   };
+   const handleDelete = (searchName) => {
+      const listKeyword = listSearch.filter(
+         (search) => search.title !== searchName
+      );
+      setOptions(listKeyword);
+      dispatch(deleteSearch(listKeyword));
+      stop = true;
+   };
    // const onSearch = (keyword) => router.push(`/search/${keyword}`);
    // const onSearch = (keyword) => router.push(`/?keyword=${keyword}`);
    // const onSearch = (keyword) => {
@@ -71,27 +93,27 @@ const Header2 = () => {
    // };
 
    return (
-      <Affix className=" z-40">
-         <Header>
-            <Menu
-               selectedKeys={[current]}
-               mode="horizontal"
-               theme="dark"
-               className="flex px-20 3xl:px-[160px]"
-            >
-               <Item key="HOME" icon={<AppstoreOutlined />}>
-                  <Link href="/">HOME</Link>
-               </Item>
-               {/* <Item
+      // <Affix className=" z-40">
+      <Header>
+         <Menu
+            selectedKeys={[current]}
+            mode="horizontal"
+            theme="dark"
+            className="flex px-20 3xl:px-[160px]"
+         >
+            <Item key="HOME" icon={<AppstoreOutlined />}>
+               <Link href="/">HOME</Link>
+            </Item>
+            {/* <Item
                   key="WTF"
                   className=" flex-grow hover:!bg-transparent cursor-auto"
                ></Item> */}
-               <Item
-                  key="SEARCH"
-                  className=" mx-auto hover:!bg-transparent cursor-default"
-               >
-                  <div className="flex justify-center items-center w-full h-16">
-                     {/* <Search
+            <Item
+               key="SEARCH"
+               className=" mx-auto hover:!bg-transparent cursor-default"
+            >
+               <div className="flex justify-center items-center w-full h-16">
+                  {/* <Search
                         placeholder="Find product"
                         // allowClear  bug tu tim
                         allowClear
@@ -100,87 +122,111 @@ const Header2 = () => {
                         onSearch={onSearch}
                         className="w-96"
                      /> */}
-                     <div>
-                        <AutoComplete
-                           dropdownMatchSelectWidth={252}
-                           style={{ width: 400 }}
-                           onSelect={onSelect}
-                           onSearch={handleSearch}
-                           onChange={(data) => setSearch(data)}
-                           // onFocus={handleFocus}
-                           placeholder="Find product"
-                        >
-                           {options.map((nameProduct) => (
-                              <Option key={nameProduct} value={nameProduct}>
+                  <div>
+                     <AutoComplete
+                        allowClear
+                        // open={open}
+                        dropdownMatchSelectWidth={252}
+                        style={{ width: 400 }}
+                        onSelect={onSelect}
+                        onSearch={handleSearch}
+                        onChange={(data) => setSearch(data)}
+                        onFocus={handleFocus}
+                        placeholder="Find product"
+                        value={search}
+                     >
+                        {options.map((nameProduct) => {
+                           const searchName = nameProduct.title || nameProduct;
+                           return (
+                              <Option key={searchName} value={searchName}>
                                  <div className="flex items-center mt-[0.5px]">
                                     <Image
-                                       src="/images/search.png"
+                                       src={
+                                          nameProduct.title
+                                             ? "/images/history.png"
+                                             : "/images/search.png"
+                                       }
+                                       // src="/images/search.png"
                                        width={35}
                                        height={35}
                                        alt="search: "
                                     />
-                                    {nameProduct}
+                                    {searchName}
+                                    {nameProduct.title && (
+                                       <div
+                                          className="ml-auto"
+                                          onClick={() =>
+                                             handleDelete(searchName)
+                                          }
+                                       >
+                                          <Image
+                                             src="/images/delete.png"
+                                             width={24}
+                                             height={24}
+                                             alt="delete"
+                                          />
+                                       </div>
+                                    )}
                                  </div>
                               </Option>
-                           ))}
-                        </AutoComplete>
+                           );
+                        })}
+                     </AutoComplete>
 
-                        <Button
-                           type="primary"
-                           onClick={() => {
-                              if (search) router.push(`/search/${search}`);
-                           }}
-                           icon={<SearchOutlined />}
-                           className="btn-search"
-                        >
-                           Search
-                        </Button>
-                     </div>
-                  </div>
-               </Item>
-
-               {/* <div className="flex-grow" key="SAOTRUNG"></div> */}
-               {!userClient?.isAdmin && (
-                  <Item
-                     key="CART"
-                     icon={
-                        <Badge count={numCart} offset={[0, -3]} size="small">
-                           <ShoppingCartOutlined className=" text-gray-100" />
-                        </Badge>
-                     }
-                     // className="ml-auto"
-                  >
-                     <Link href="/cart">CART</Link>
-                  </Item>
-               )}
-
-               {userClient ? (
-                  <SubMenu
-                     icon={<UserOutlined />}
-                     title={user?.name}
-                     key="USER"
-
-                     // popupOffset={[1000, 5]}
-                  >
-                     <Item key="Profile" icon={<ContactsOutlined />}>
-                        <Link href="/profile">Profile</Link>
-                     </Item>
-                     <Item
-                        key="Logout"
-                        icon={<LogoutOutlined />}
-                        onClick={logoutHandler}
+                     <Button
+                        type="primary"
+                        onClick={handleClickSearch}
+                        icon={<SearchOutlined />}
+                        className="btn-search"
                      >
-                        Logout
-                     </Item>
-                  </SubMenu>
-               ) : (
-                  <Item key=" SIGN IN" icon={<UserOutlined />}>
-                     <Link href="/login"> SIGN IN</Link>
+                        Search
+                     </Button>
+                  </div>
+               </div>
+            </Item>
+
+            {/* <div className="flex-grow" key="SAOTRUNG"></div> */}
+            {!userClient?.isAdmin && (
+               <Item
+                  key="CART"
+                  icon={
+                     <Badge count={numCart} offset={[0, -3]} size="small">
+                        <ShoppingCartOutlined className=" text-gray-100" />
+                     </Badge>
+                  }
+                  // className="ml-auto"
+               >
+                  <Link href="/cart">CART</Link>
+               </Item>
+            )}
+
+            {userClient ? (
+               <SubMenu
+                  icon={<UserOutlined />}
+                  title={user?.name}
+                  key="USER"
+
+                  // popupOffset={[1000, 5]}
+               >
+                  <Item key="Profile" icon={<ContactsOutlined />}>
+                     <Link href="/profile">Profile</Link>
                   </Item>
-               )}
-            </Menu>
-         </Header>
-      </Affix>
+                  <Item
+                     key="Logout"
+                     icon={<LogoutOutlined />}
+                     onClick={logoutHandler}
+                  >
+                     Logout
+                  </Item>
+               </SubMenu>
+            ) : (
+               <Item key=" SIGN IN" icon={<UserOutlined />}>
+                  <Link href="/login"> SIGN IN</Link>
+               </Item>
+            )}
+         </Menu>
+      </Header>
+      // </Affix>
    );
 };
 

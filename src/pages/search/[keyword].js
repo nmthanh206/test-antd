@@ -38,8 +38,11 @@ const HomeScreen = () => {
          <div className="">
             <Row>
                <Col span={24}>
-                  <h1 className="m-0 mt-2 ml-5 text-3xl">
-                     Search results for '{keyword}' : {data?.total} results
+                  <h1 className="m-0 mt-2 ml-5 text-3xl font-medium">
+                     Search results for '{keyword}' :{" "}
+                     <span className="text-gray-400">
+                        {data?.total} results
+                     </span>
                   </h1>
                </Col>
             </Row>
@@ -65,7 +68,7 @@ const HomeScreen = () => {
             <Row>
                <Col md={20} xs={24} offset={3}>
                   <div className="flex justify-center items-center mt-6 mr-24">
-                     {!isLoading && data && (
+                     {!isLoading && data.products.length !== 0 && (
                         <Pagination
                            defaultCurrent={1}
                            responsive

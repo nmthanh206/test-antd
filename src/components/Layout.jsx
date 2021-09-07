@@ -1,4 +1,4 @@
-import { Layout, Menu } from "antd";
+import { BackTop, Layout, Menu } from "antd";
 
 import { ToastContainer } from "react-toastify";
 
@@ -11,6 +11,7 @@ import {
    TeamOutlined,
    FormOutlined,
    ReconciliationOutlined,
+   UpOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { useMounted } from "@/hook/useMounted";
@@ -87,6 +88,22 @@ export default function Layout2({ children }) {
                <Content className="">
                   <Container>{children} </Container>
                </Content>
+               <BackTop>
+                  <div
+                     style={{
+                        height: 40,
+                        width: 40,
+                        lineHeight: "40px",
+                        borderRadius: "50%",
+                        backgroundColor: "#1a94ff",
+                        color: "#fff",
+                        textAlign: "center",
+                        fontSize: 14,
+                     }}
+                  >
+                     <UpOutlined />
+                  </div>
+               </BackTop>
             </Layout>
 
             {/* <Footer className="">Footer</Footer> */}
