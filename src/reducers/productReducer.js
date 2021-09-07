@@ -24,8 +24,17 @@ const productReducer = createSlice({
             JSON.stringify(state.listSearch)
          );
       },
+      // deleteSearch: (state, action) => {
+      //    state.listSearch = action.payload;
+      //    localStorage.setItem(
+      //       "search-keyword",
+      //       JSON.stringify(state.listSearch)
+      //    );
+      // },
       deleteSearch: (state, action) => {
-         state.listSearch = action.payload;
+         state.listSearch = state.listSearch.filter(
+            (search) => search.title !== action.payload
+         );
          localStorage.setItem(
             "search-keyword",
             JSON.stringify(state.listSearch)

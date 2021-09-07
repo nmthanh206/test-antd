@@ -68,7 +68,7 @@ const HomeScreen = () => {
             <Row>
                <Col md={20} xs={24} offset={3}>
                   <div className="flex justify-center items-center mt-6 mr-24">
-                     {!isLoading && data?.products?.length !== 0 && (
+                     {!isLoading && data && data?.products.length !== 0 && (
                         <Pagination
                            defaultCurrent={1}
                            responsive

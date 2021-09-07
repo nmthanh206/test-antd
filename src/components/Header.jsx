@@ -83,7 +83,8 @@ const Header2 = () => {
          (search) => search.title !== searchName
       );
       setOptions(listKeyword);
-      dispatch(deleteSearch(listKeyword));
+      // dispatch(deleteSearch(listKeyword));
+      dispatch(deleteSearch(searchName));
       stop = true;
    };
    // const onSearch = (keyword) => router.push(`/search/${keyword}`);
