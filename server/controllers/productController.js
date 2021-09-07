@@ -30,10 +30,10 @@ const getProducts = asyncHandler(async (req, res) => {
       : {};
 
    const count = await Product.countDocuments({ ...keyword });
-   const products = await Product.find({ ...keyword })
-      .select("-reviews -user -description -countInStock")
-      .limit(pageSize)
-      .skip(pageSize * (page - 1));
+   const products = await Product.find({ ...keyword });
+   // .select("-reviews -user -description -countInStock")
+   // .limit(pageSize)
+   // .skip(pageSize * (page - 1));
 
    res.json({
       products,

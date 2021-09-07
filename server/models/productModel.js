@@ -1,20 +1,35 @@
 import mongoose from "mongoose";
 
-const reviewSchema = mongoose.Schema(
-   {
-      name: { type: String, required: true },
-      rating: { type: Number, required: true },
-      comment: { type: String, required: true },
-      user: {
-         type: mongoose.Schema.Types.ObjectId,
-         required: true,
-         ref: "User",
-      },
-   },
-   {
-      timestamps: true,
-   }
-);
+// const reviewSchema = mongoose.Schema(
+//    {
+//       name: { type: String, required: true },
+//       rating: { type: Number, required: true },
+//       comment: { type: String, required: true },
+//       user: {
+//          type: mongoose.Schema.Types.ObjectId,
+//          required: true,
+//          ref: "User",
+//       },
+//    },
+//    {
+//       timestamps: true,
+//    }
+// );
+// const reviewSchema = mongoose.Schema(
+//    {
+//       name: { type: String, required: true },
+//       rating: { type: Number, required: true },
+//       comment: { type: String, required: true },
+//       user: {
+//          type: mongoose.Schema.Types.ObjectId,
+//          required: true,
+//          ref: "User",
+//       },
+//    },
+//    {
+//       timestamps: true,
+//    }
+// );
 
 const productSchema = mongoose.Schema(
    {
@@ -43,7 +58,12 @@ const productSchema = mongoose.Schema(
          type: String,
          required: true,
       },
-      reviews: [reviewSchema],
+      reviews: [
+         {
+            type: mongoose.Schema.ObjectId,
+            ref: "Review",
+         },
+      ],
       rating: {
          type: Number,
          required: true,
@@ -69,6 +89,14 @@ const productSchema = mongoose.Schema(
       timestamps: true,
    }
 );
+productSchema.pre(/^find/, function (next) {
+   console.log("run");
+   this.populate({
+      path: "reviews",
+      select: "rating comment",
+   });
+   next();
+});
 
 export default mongoose.models.Product ||
    mongoose.model("Product", productSchema);
