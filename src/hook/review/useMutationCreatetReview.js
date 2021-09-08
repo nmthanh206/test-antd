@@ -56,7 +56,7 @@ export const useMutationCreatetReview = (id) => {
       onMutate: async ({ review: { rating, comment }, userInfo: { name } }) => {
          await queryClient.cancelQueries(["getProductDetails", id]);
          const current = queryClient.getQueryData(["getProductDetails", id]);
-
+         console.log({ rating, comment, name });
          queryClient.setQueryData(["getProductDetails", id], (product) => {
             const today = new Date();
             const dd = today.getDate();
@@ -64,13 +64,18 @@ export const useMutationCreatetReview = (id) => {
 
             const yyyy = today.getFullYear();
             const newReviews = [
-               ...product.reviews,
-               { rating, comment, createdAt: `${yyyy}-${mm}-${dd}`, name },
+               ...(product?.reviews || []),
+               {
+                  rating,
+                  comment,
+                  createdAt: `${yyyy}-${mm}-${dd}`,
+                  user: { name },
+               },
             ];
+            console.log({ ...product, reviews: [...newReviews] });
             return { ...product, reviews: [...newReviews] }; //! khong duoc mutate product
          });
 
-         toast.success(`Create Review Successfully`);
          // return current;
          return { current }; //!return o day se xuong context o error
       },
@@ -78,6 +83,9 @@ export const useMutationCreatetReview = (id) => {
          console.log(err, productCreateReview, context);
          queryClient.setQueryData(["getProductDetails", id], context.current); //?rollback ve array review current ban dau
          toast.error(`Failed to create review ${err.message}`);
+      },
+      onSuccess: () => {
+         toast.success(`Create Review Successfully`);
       },
       // onSettled: (productReview) => {
       //   queryClient.invalidateQueries(["getProductDetails", id]);

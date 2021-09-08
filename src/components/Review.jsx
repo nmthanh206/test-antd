@@ -63,7 +63,8 @@ const Review = ({ reviews, form, setTextSubmit, setRate }) => {
                                        style={{ fontSize: "15px" }}
                                     />
                                  </Col>
-                                 {review.user === userId && (
+                                 {/* {review.user === userId && ( */}
+                                 {review.user._id === userId && (
                                     <Col span={1} className=" -mt-3 ml-12">
                                        <Button
                                           type="ghost"

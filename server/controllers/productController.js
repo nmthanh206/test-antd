@@ -252,38 +252,65 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @desc    Update review
 // @route   PUT /api/products/:id/reviews
 // @access  Private
+// const updateProductReview = asyncHandler(async (req, res) => {
+//    const { rating, comment } = req.body;
+
+//    const product = await Product.findById(req.query.id);
+
+//    if (product) {
+//       const alreadyReviewed = product.reviews.find(
+//          (r) => r.user.toString() === req.user._id.toString()
+//       );
+
+//       if (alreadyReviewed) {
+//          // res.status(400);
+//          // throw new Error("You already reviewed this product");
+//          alreadyReviewed.rating = rating;
+//          alreadyReviewed.comment = comment;
+//          //    const updatedReview = await alreadyReviewed.save();
+//          product.numReviews = product.reviews.length;
+
+//          product.rating =
+//             product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+//             product.reviews.length;
+
+//          await product.save();
+//          // res.status(201).json(updatedReview);
+//          res.status(201).json(alreadyReviewed);
+//       } else {
+//          res.status(500).json("You don't have permission");
+//       }
+//    } else {
+//       res.status(404);
+//       throw new Error("Product not found");
+//    }
+// });
+
 const updateProductReview = asyncHandler(async (req, res) => {
    const { rating, comment } = req.body;
 
-   const product = await Product.findById(req.query.id);
+   const review = await Review.findOne({
+      user: req.user._id,
+      product: req.query.id,
+   });
 
-   if (product) {
-      const alreadyReviewed = product.reviews.find(
-         (r) => r.user.toString() === req.user._id.toString()
-      );
-
-      if (alreadyReviewed) {
-         // res.status(400);
-         // throw new Error("You already reviewed this product");
-         alreadyReviewed.rating = rating;
-         alreadyReviewed.comment = comment;
-         //    const updatedReview = await alreadyReviewed.save();
-         product.numReviews = product.reviews.length;
-
-         product.rating =
-            product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-            product.reviews.length;
-
-         await product.save();
-         // res.status(201).json(updatedReview);
-         res.status(201).json(alreadyReviewed);
-      } else {
-         res.status(500).json("You don't have permission");
-      }
-   } else {
-      res.status(404);
-      throw new Error("Product not found");
+   if (!review) {
+      res.status(400);
+      throw new Error("Review not found");
    }
+   review.rating = rating;
+   review.comment = comment;
+   await review.save();
+   // console.log(review);
+   const product = await Product.findById(req.query.id);
+   const productReview = await Review.find({ product: req.query.id });
+   const numReviews = productReview.length;
+   const ratingReviews =
+      productReview.reduce((acc, item) => item.rating + acc, 0) / numReviews;
+   product.numReviews = numReviews;
+   product.rating = ratingReviews;
+   await product.save();
+   res.status(201).json({ message: "Review updated" });
 });
 
 // @desc    Get top rated products
