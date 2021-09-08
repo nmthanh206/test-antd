@@ -2,6 +2,7 @@
 
 import { asyncHandler } from "@/utils/asyncHandler";
 import Product from "server/models/productModel";
+import Review from "server/models/reviewModel";
 
 const getNameProduct = asyncHandler(async (req, res) => {
    const names = await Product.find().select("name");
@@ -30,10 +31,10 @@ const getProducts = asyncHandler(async (req, res) => {
       : {};
 
    const count = await Product.countDocuments({ ...keyword });
-   const products = await Product.find({ ...keyword });
-   // .select("-reviews -user -description -countInStock")
-   // .limit(pageSize)
-   // .skip(pageSize * (page - 1));
+   const products = await Product.find({ ...keyword })
+      .select("-reviews -user -description -countInStock")
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
 
    res.json({
       products,
@@ -47,8 +48,21 @@ const getProducts = asyncHandler(async (req, res) => {
 // @desc    Fetch single product
 // @route   GET /api/products/:id
 // @access  Public
+// const getProductById = asyncHandler(async (req, res) => {
+//    const product = await Product.findById(req.query.id);
+
+//    if (product) {
+//       res.json(product);
+//    } else {
+//       res.status(404);
+//       throw new Error("Product not found");
+//    }
+// });
 const getProductById = asyncHandler(async (req, res) => {
-   const product = await Product.findById(req.query.id);
+   const product = await Product.findById(req.query.id).populate({
+      path: "reviews",
+      model: Review,
+   });
 
    if (product) {
       res.json(product);
@@ -167,43 +181,72 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @desc    Create new review
 // @route   POST /api/products/:id/reviews
 // @access  Private
+// const createProductReview = asyncHandler(async (req, res) => {
+//    const { rating, comment } = req.body;
+
+//    const product = await Product.findById(req.query.id);
+
+//    if (product) {
+//       const alreadyReviewed = product.reviews.find(
+//          (r) => r.user.toString() === req.user._id.toString()
+//       );
+
+//       if (alreadyReviewed) {
+//          res.status(400);
+//          throw new Error("You already reviewed this product");
+//       }
+
+//       const review = {
+//          name: req.user.name,
+//          rating: Number(rating),
+//          comment,
+//          user: req.user._id,
+//       };
+//       // console.log(review);
+
+//       product.reviews.push(review);
+
+//       product.numReviews = product.reviews.length;
+
+//       product.rating =
+//          product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+//          product.reviews.length;
+
+//       await product.save();
+//       res.status(201).json({ message: "Review added" });
+//    } else {
+//       res.status(404);
+//       throw new Error("Product not found");
+//    }
+// });
 const createProductReview = asyncHandler(async (req, res) => {
    const { rating, comment } = req.body;
+   console.log("vo");
+   const review = await Review.findOne({
+      user: req.user._id,
+      product: req.query.id,
+   });
 
-   const product = await Product.findById(req.query.id);
-
-   if (product) {
-      const alreadyReviewed = product.reviews.find(
-         (r) => r.user.toString() === req.user._id.toString()
-      );
-
-      if (alreadyReviewed) {
-         res.status(400);
-         throw new Error("You already reviewed this product");
-      }
-
-      const review = {
-         name: req.user.name,
-         rating: Number(rating),
-         comment,
-         user: req.user._id,
-      };
-      // console.log(review);
-
-      product.reviews.push(review);
-
-      product.numReviews = product.reviews.length;
-
-      product.rating =
-         product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-         product.reviews.length;
-
-      await product.save();
-      res.status(201).json({ message: "Review added" });
-   } else {
-      res.status(404);
-      throw new Error("Product not found");
+   if (review) {
+      res.status(400);
+      throw new Error("You already reviewed this product");
    }
+   await Review.create({
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+      product: req.query.id,
+   });
+   // console.log(review);
+   const product = await Product.findById(req.query.id);
+   const productReview = await Review.find({ product: req.query.id });
+   const numReviews = productReview.length;
+   const ratingReviews =
+      productReview.reduce((acc, item) => item.rating + acc, 0) / numReviews;
+   product.numReviews = numReviews;
+   product.rating = ratingReviews;
+   await product.save();
+   res.status(201).json({ message: "Review added" });
 });
 
 // @desc    Update review

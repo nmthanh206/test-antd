@@ -16,7 +16,10 @@ const Review = ({ reviews, form, setTextSubmit, setRate }) => {
          itemLayout="horizontal"
          dataSource={reviews}
          renderItem={(review) => {
-            const name = review.name.toUpperCase().split(" ");
+            // const name = review.name.toUpperCase().split(" ");
+
+            const name = review.user.name.toUpperCase().split(" ");
+
             const length = name.length;
             const createAt = review.createdAt.substring(0, 10).split("-");
             const day = createAt[2];

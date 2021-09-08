@@ -58,12 +58,12 @@ const productSchema = mongoose.Schema(
          type: String,
          required: true,
       },
-      reviews: [
-         {
-            type: mongoose.Schema.ObjectId,
-            ref: "Review",
-         },
-      ],
+      // reviews: [
+      //    {
+      //       type: mongoose.Schema.ObjectId,
+      //       ref: "Review",
+      //    },
+      // ],
       rating: {
          type: Number,
          required: true,
@@ -89,14 +89,22 @@ const productSchema = mongoose.Schema(
       timestamps: true,
    }
 );
-productSchema.pre(/^find/, function (next) {
-   console.log("run");
-   this.populate({
-      path: "reviews",
-      select: "rating comment",
-   });
-   next();
+
+// Virtual populate
+productSchema.virtual("reviews", {
+   ref: "Review",
+   foreignField: "product",
+   localField: "_id",
 });
+// productSchema.pre(/^find/, function (next) {
+//    console.log("run");
+//    this.populate({
+//       path: "reviews",
+//       // select: "rating",
+//       model: Review,
+//    });
+//    next();
+// });
 
 export default mongoose.models.Product ||
    mongoose.model("Product", productSchema);
