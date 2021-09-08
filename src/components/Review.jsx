@@ -16,7 +16,10 @@ const Review = ({ reviews, form, setTextSubmit, setRate }) => {
          itemLayout="horizontal"
          dataSource={reviews}
          renderItem={(review) => {
-            const name = review.name.toUpperCase().split(" ");
+            // const name = review.name.toUpperCase().split(" ");
+
+            const name = review.user.name.toUpperCase().split(" ");
+
             const length = name.length;
             const createAt = review.createdAt.substring(0, 10).split("-");
             const day = createAt[2];
@@ -49,7 +52,8 @@ const Review = ({ reviews, form, setTextSubmit, setRate }) => {
                            <>
                               <Row className="" align="middle">
                                  <Col span={10}>
-                                    <h3>{review.name}</h3>
+                                    {/* <h3>{review.name}</h3> */}
+                                    <h3>{review.user.name}</h3>
                                  </Col>
                                  <Col span={10} className="-mt-1">
                                     <Rate
@@ -60,7 +64,7 @@ const Review = ({ reviews, form, setTextSubmit, setRate }) => {
                                        style={{ fontSize: "15px" }}
                                     />
                                  </Col>
-                                 {review.user === userId && (
+                                 {review.user._id === userId && (
                                     <Col span={1} className=" -mt-3 ml-12">
                                        <Button
                                           type="ghost"

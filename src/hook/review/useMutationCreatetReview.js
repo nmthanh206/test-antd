@@ -31,12 +31,16 @@ export const useMutationCreatetReview = (id) => {
             const yyyy = today.getFullYear();
             const newReviews = [
                ...product.reviews,
-               { rating, comment, createdAt: `${yyyy}-${mm}-${dd}`, name },
+               {
+                  rating,
+                  comment,
+                  createdAt: `${yyyy}-${mm}-${dd}`,
+                  user: { name },
+               },
             ];
             return { ...product, reviews: [...newReviews] }; //! khong duoc mutate product
          });
 
-         toast.success(`Create Review Successfully`);
          // return current;
          return { current }; //!return o day se xuong context o error
       },
@@ -44,6 +48,9 @@ export const useMutationCreatetReview = (id) => {
          console.log(err, productCreateReview, context);
          queryClient.setQueryData(["getProductDetails", id], context.current); //?rollback ve array review current ban dau
          toast.error(`Failed to create review ${err.message}`);
+      },
+      onSuccess: () => {
+         toast.success(`Create Review Successfully`);
       },
       // onSettled: (productReview) => {
       //   queryClient.invalidateQueries(["getProductDetails", id]);

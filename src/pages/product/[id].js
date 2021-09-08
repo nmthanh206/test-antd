@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,6 +25,7 @@ import Message from "@/components/Message";
 import Review from "@/components/Review";
 import { addToCart } from "@/reducers/cartReducer";
 import productModel from "@/models/productModel";
+import User from "@/models/userModel";
 import dbConnect from "@/lib/dbConnect";
 import { useMounted } from "@/hook/useMounted";
 import ReactImageZoom from "@/components/ReactImageZoom";
@@ -302,7 +303,11 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
    await dbConnect();
 
-   const product = await productModel.findById(params.id);
+   const product = await productModel.findById(params.id).populate({
+      path: "reviews.user",
+      select: "name",
+      model: User,
+   });
    // console.log(product);
    return {
       props: {

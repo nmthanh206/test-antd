@@ -31,14 +31,13 @@ export const useMutationUpdatetReview = (id) => {
          queryClient.setQueryData(["getProductDetails", id], (product) => {
             // console.log(product);
             const newReviews = product.reviews.map((rv) => {
-               if (rv.user === _id) return { ...rv, ...review };
+               if (rv.user._id === _id) return { ...rv, ...review };
                return rv;
             });
 
             return { ...product, reviews: [...newReviews] }; //! khong duoc mutate product
          });
 
-         toast.success(`Update Review Successfully`);
          // return current;
          return { current }; //!return o day se xuong context o error
       },
@@ -47,6 +46,9 @@ export const useMutationUpdatetReview = (id) => {
          console.log(err, productUpdateReview, context);
          queryClient.setQueryData(["getProductDetails", id], context.current);
          toast.error(`Failed to update review ${err.message}`);
+      },
+      onSuccess: () => {
+         toast.success(`Update Review Successfully`);
       },
       // onSettled: (productUpdateReview) => {
       //   queryClient.invalidateQueries(["getProductDetails", id]);

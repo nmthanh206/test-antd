@@ -91,7 +91,7 @@ const Product = ({ product, isLoading }) => {
             <h3 className="min-h-[65px] text-[1.3rem]">{product.name}</h3>
             <article className="flex justify-between items-center">
                <div>
-                  <Rate allowHalf disabled defaultValue={product.rating} />
+                  <Rate allowHalf disabled value={product.rating} />
                </div>
                <div className="mt-1"> {`${product.numReviews} reviews`}</div>
             </article>

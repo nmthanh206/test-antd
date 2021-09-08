@@ -2,6 +2,7 @@
 
 import { asyncHandler } from "@/utils/asyncHandler";
 import Product from "server/models/productModel";
+import User from "server/models/userModel";
 
 const getNameProduct = asyncHandler(async (req, res) => {
    const names = await Product.find().select("name");
@@ -48,7 +49,11 @@ const getProducts = asyncHandler(async (req, res) => {
 // @route   GET /api/products/:id
 // @access  Public
 const getProductById = asyncHandler(async (req, res) => {
-   const product = await Product.findById(req.query.id);
+   const product = await Product.findById(req.query.id).populate({
+      path: "reviews.user",
+      select: "name",
+      model: User,
+   });
 
    if (product) {
       res.json(product);
