@@ -36,6 +36,7 @@ const cartReducer = createSlice({
          state.cartItems = state.cartItems.filter((item) => {
             return item.id !== id;
          });
+         Cookie.set("cartItems", JSON.stringify(state.cartItems));
       },
       updateQtyItem: (state, { payload: { id, qty } }) => {
          state.cartItems = state.cartItems.map((item) => {
@@ -44,6 +45,7 @@ const cartReducer = createSlice({
             }
             return item;
          });
+         Cookie.set("cartItems", JSON.stringify(state.cartItems));
       },
       saveShippingAddress: (state, { payload }) => {
          state.shippingAddress = payload;
