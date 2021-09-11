@@ -70,8 +70,10 @@ const Header2 = () => {
       setOptions(listSearch);
    };
    const handleClickSearch = () => {
-      dispatch(addListSearch({ title: search }));
-      if (search) router.push(`/search/${search}`);
+      if (search) {
+         dispatch(addListSearch({ title: search }));
+         router.push(`/search/${search}`);
+      }
    };
    const handleChange = (data) => {
       if (!open) setOpen(true);
@@ -124,7 +126,8 @@ const Header2 = () => {
                         value={search}
                         onKeyDown={(event) => {
                            if (event.key === "Enter") {
-                              onSelect(search);
+                              // onSelect(search);
+                              handleClickSearch();
                            }
                         }}
                      >
